@@ -1,0 +1,89 @@
+<project name='WFW' default='all'>
+  <property file='src/static/WEB-INF/flow.properties' />
+
+  <path id="project.class.path">
+    <fileset dir="src/static/WEB-INF/lib">
+      <include name="*.jar" />
+    </fileset>
+    <fileset dir="${CATALINA_HOME}/lib">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+
+  <property name='compile.flags' value='-Xlint:all' />
+
+  <property name='src.dir' value='src' />
+  <property name='src.java.dir' value='${src.dir}/java' />
+  <property name='static.dir' value='${src.dir}/static' />
+
+  <property name='web.root.dir' value='${CATALINA_HOME}/webapps/ROOT' />
+  <property name='web.webinf.dir' value='${web.root.dir}/WEB-INF' />
+  <property name='web.classes.dir' value='${web.webinf.dir}/classes' />
+  <property name='web.lib.dir' value='${web.webinf.dir}/lib' />
+
+  <target name='all' description='Build all project' depends='clean, build'>
+  </target>
+
+  <target name="init">
+    <echo>Initizlized...</echo>
+    <mkdir dir='${web.root.dir}' />
+    <mkdir dir='${web.classes.dir}' />
+    <mkdir dir='${web.lib.dir}' />
+  </target>
+
+  <target name='makeCommonJar'>
+    <echo>Creating Util jar...</echo>
+
+    <javac destdir="${web.classes.dir}">
+      <src path="${src.java.dir}/com/siegerstein/wfw/framework/test" />
+      <classpath refid="project.class.path" />
+      <compilerarg value="${compile.flags}" />
+    </javac>
+
+    <jar destfile="${web.lib.dir}/common.jar" basedir="${web.classes.dir}" />
+
+    <!-- Replace static defines in file -->
+    <echo>Replasing constants in static files...</echo>
+    <java classname="com.siegerstein.wfw.framework.ant.ReplaceConstants" fork="true" failonerror="true" maxmemory="128m">
+      <classpath>
+        <pathelement location="${web.lib.dir}/common.jar" />
+      </classpath>
+      <classpath refid="project.class.path" />
+    </java>
+
+  </target>
+
+  <target name='build' depends="init">
+    <echo>Building project...</echo>
+
+    <!-- Copy static content -->
+    <echo>Copy static content...</echo>
+    <copy todir='${web.root.dir}'>
+      <fileset dir='${static.dir}' />
+    </copy>
+
+    <!-- Copy datasets files -->
+    <echo>Copy dataset files...</echo>
+    <copy todir='${web.webinf.dir}/datasets'>
+      <fileset dir="${src.dir}/java">
+        <include name="**/*.xml" />
+        <include name="**/*.js" />
+        <include name="**/*.yml" />
+      </fileset>
+    </copy>
+
+    <javac destdir="${web.classes.dir}">
+      <src path="${src.java.dir}" />
+      <classpath refid="project.class.path" />
+      <compilerarg value="${compile.flags}" />
+    </javac>
+
+    <antcall target="makeCommonJar" />
+  </target>
+
+  <target name='clean'>
+    <echo>Cleaning project...</echo>
+    <delete dir='${web.root.dir}' />
+  </target>
+
+</project>

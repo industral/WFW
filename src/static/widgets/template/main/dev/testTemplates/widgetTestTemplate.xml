@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<ROOT>
+  <head>
+    <title>WFW - Widget Test Page</title>
+  </head>
+  <body>
+    <div id='testContent' class='clear'/>
+  </body>
+</ROOT>

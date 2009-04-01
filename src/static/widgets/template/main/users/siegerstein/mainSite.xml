@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<ROOT>
+  <head>
+    <title>WFW - Test Framework Page</title>
+  </head>
+  <body>
+    <div id='logo' class='clear'/>
+    <div id='topMenu' class='clear'/>
+    <div id='menu' class='clear'/>
+    <div id='content' class='clear'/>
+    <div id='bottom' class='clear'/>
+  </body>
+</ROOT>

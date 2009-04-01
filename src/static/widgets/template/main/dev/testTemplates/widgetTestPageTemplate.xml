@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<ROOT>
+  <head>
+    <title>WFW - Widget Test Page</title>
+  </head>
+  <body>
+    <div id='header' class='clear'/>
+    <div id='menu' class='clear'/>
+    <div id='content' class='clear'>
+      <iframe id="frameContent" src="" align="center" frameborder="0"></iframe>
+    </div>
+    <div id='bottom' class='clear'/>
+  </body>
+</ROOT>

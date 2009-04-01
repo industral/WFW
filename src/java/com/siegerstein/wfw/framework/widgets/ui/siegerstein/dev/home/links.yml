@@ -1,0 +1,9 @@
+-
+  name: Widget Test Page
+  url:  /Dev/WidgetTestPage
+  descr: Page to test widget in stand-alone mode
+-
+  name: Flow Creation Page
+  url:  /Dev/FlowCreationPage
+  descr: Page to create flow from widgets. Allow manipulation with widgets and save result to flow file.
+

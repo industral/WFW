@@ -1,0 +1,19 @@
+#logo {
+  float: left;
+}
+
+#textLogo {
+  background: url('@WIDGET_PATH@/img/logo.png');
+  width: 1032px;
+  height: 266px;
+}
+
+/*
+#imageLogo {
+  background: url('@WIDGET_PATH@/img/panther.png');
+  width: 250px;
+  height: 279px;
+  margin: 40px 0 0 246px;
+  float: left;
+}
+*/

@@ -1,0 +1,347 @@
+/***************************************************************************
+ *                             WFW - Web Framework                         *
+ *                      Copyright (C) 2009 Alex Y. Ivasyuv                 *
+ *                                                                         *
+ * This program is free software: you can redistribute it and/or modify    *
+ * it under the terms of the GNU General Public License as published by    *
+ * the Free Software Foundation, either version 3 of the License, or       *
+ * (at your option) any later version.                                     *
+ *                                                                         *
+ * This program is distributed in the hope that it will be useful,         *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ * GNU General Public License for more details.                            *
+ *                                                                         *
+ * You should have received a copy of the GNU General Public License       *
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.   *
+ **************************************************************************/
+
+package com.siegerstein.wfw.framework;
+
+import static com.siegerstein.wfw.framework.util.Util.isPresent;
+import static com.siegerstein.wfw.framework.util.Util.readPropertieFile;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
+
+/**
+ * Class for parsing flow xml-file and putting widgets in appropriate places.
+ * 
+ * @author Alex Y. Ivasyuv.
+ */
+public class FlowCollectionParser {
+
+  // --------------------------------------------------------------------
+  // Public methods
+  // --------------------------------------------------------------------
+
+  /**
+   * Constructor.
+   * 
+   * @param writer JSP writer to provide XHTML outputting document.
+   */
+  public FlowCollectionParser(final PrintWriter writer) {
+    logger.log(Level.INFO, "In Constructor");
+    this.out = writer;
+  }
+
+  /**
+   * Initialized method to became parsing files and create XML output.
+   * 
+   * @param flowId Flow name.
+   * @throws FileNotFoundException
+   */
+  public final void process(final String flowId) throws FileNotFoundException {
+    this.createFlowHashMap(flowId);
+    this.outputBuilder();
+  }
+
+  /**
+   * Test widget in Test Widget Page.
+   * 
+   * @param widgetName widget name.
+   * @param commonWidget common widget.
+   * @throws FileNotFoundException
+   */
+  public final void testWidget(final String widgetName,
+      final String commonWidgetName) throws FileNotFoundException {
+    this.flowTemplate = "main/dev/testTemplates/widgetTestTemplate";
+
+    this.commonWidgetName = commonWidgetName;
+
+    // Create flow hashMap ("testContent" => "widgetName")
+    this.flowHash = new HashMap < String, String >();
+    flowHash.put("testContent", widgetName);
+
+    this.outputBuilder();
+  }
+
+  // --------------------------------------------------------------------
+  // Private methods
+  // --------------------------------------------------------------------
+
+  /**
+   * Parsing flow file.
+   * 
+   * @return {@link Element} of main flow data-file.
+   * @throws FileNotFoundException
+   */
+  private Element parseFlow() throws FileNotFoundException {
+    SAXBuilder builder = new SAXBuilder();
+
+    Document doc = null;
+    try {
+      doc = builder.build(new FileInputStream(this.properties
+          .getProperty("flowPath")));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      throw new FileNotFoundException("Flow file not found");
+    } catch (JDOMException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return (doc.getRootElement());
+  }
+
+  /**
+   * Create hashMap with "id" => "widgetName".
+   * 
+   * @param flowId flow name.
+   * @return {@link HashMap}.
+   * @throws FileNotFoundException
+   */
+  private void createFlowHashMap(String flowId) throws FileNotFoundException {
+    // Create flow hashMap ("id" => "widgetName")
+    this.flowHash = new HashMap < String, String >();
+
+    // Find flow with flowId name
+    for (Element obj : (List < Element >) this.parseFlow().getChildren("flow")) {
+      if ((obj.getAttributeValue("name").equals(flowId))) {
+        this.flowTemplate = obj.getAttributeValue("template");
+        this.commonWidgetName = obj.getAttributeValue("commonWidget");
+        // If flow found, run in cycle and populate hash
+        for (Element widgetObj : (List < Element >) obj.getChild("widgets")
+            .getChildren("widget")) {
+          // Populate hash with "id" => "widgetName"
+          this.flowHash.put(widgetObj.getAttributeValue("id"), widgetObj
+              .getValue());
+        }
+      }
+    }
+  }
+
+  /**
+   * Parse template file.
+   * 
+   * @return {@link Element} of template root.
+   * @throws FileNotFoundException
+   */
+  private Element getTemplateRoot() throws FileNotFoundException {
+    // Start builder for template.
+    SAXBuilder templateBuilder = new SAXBuilder();
+    Document docTemplate = null;
+    try {
+      docTemplate = templateBuilder.build(new FileInputStream(this.properties
+          .getProperty("templateDir")
+          + this.flowTemplate + ".xml"));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      throw new FileNotFoundException("Template file not found");
+    } catch (JDOMException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return (docTemplate.getRootElement());
+  }
+
+  /**
+   * Create XML output document from widgets.
+   * 
+   * @throws FileNotFoundException
+   */
+  private void outputBuilder() throws FileNotFoundException {
+    Element templateRoot = this.getTemplateRoot();
+    List < Element > templateRootList = (List < Element >) templateRoot
+        .getChildren();
+    Element templateHEAD = templateRootList.get(0);
+    Element templateBODY = templateRootList.get(1);
+
+    // Add common widget files. Should be the first before users widgets
+    this.addFilesToHead(this.properties.getProperty("commonWidgetName"),
+        templateHEAD);
+
+    // If present common user widget add it to HEAD
+    if (isPresent(this.commonWidgetName)) {
+      this.addFilesToHead(this.commonWidgetName, templateHEAD);
+    }
+
+    for (Element divObj : (List < Element >) (templateBODY.getChildren())) {
+      // Ensure that it's ID tag
+      if (divObj.getName().equals("div")) {
+        String idName = divObj.getAttributeValue("id");
+        if (this.flowHash.get(idName) != null) {
+          Document widgetDoc = null;
+
+          String widgetName = this.flowHash.get(idName);
+          String widgetPath = this.properties.getProperty("widgetsDir")
+              + widgetName + "/";
+
+          try {
+            widgetDoc = new SAXBuilder().build(new FileInputStream(widgetPath
+                + this.properties.getProperty("widgetXMLDir") + "/"
+                + this.properties.getProperty("widgetXMLFile")));
+          } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            throw new FileNotFoundException(
+                "One of widget can't be found. Ensure that you defined right file names in 'flow/flow.xml'");
+          } catch (JDOMException e) {
+            e.printStackTrace();
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
+
+          // Add widget HEAD
+          this.addFilesToHead(widgetName, templateHEAD);
+          // Add widget content
+          divObj.setContent(widgetDoc.getRootElement().cloneContent());
+        }
+      }
+    }
+    Format format = Format.getPrettyFormat();
+    XMLOutputter outp = new XMLOutputter(format);
+    try {
+      outp.output(templateHEAD, out);
+      outp.output(templateBODY, out);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Populate {@link List} with files that present in widgets (CSS/JS).
+   * 
+   * @param folder Path to folder that should be scanned.
+   * @param collection to array where {@link File} should be accumulate.
+   */
+  private void getFiles(final File folder, final List < String > list,
+      String widgetName) {
+    File[] files = folder.listFiles();
+    for (int j = 0; j < files.length; ++j) {
+      if (files[j].isFile()) {
+
+        // Widget path, for example: ../webapps/ROOT/widgets/ui/siegerstein/logo
+        String widgetPath = properties.getProperty("widgetsDir") + widgetName;
+        // File path, for example: js/jquery/jquery-1.3.2.min.js
+        String realFilePath = files[j].toString().substring(
+            widgetPath.length() + 2);
+        list.add(realFilePath);
+      }
+      if (files[j].isDirectory()) {
+        getFiles(files[j], list, widgetName);
+      }
+    }
+  }
+
+  /**
+   * Add present CSS/JS files to HEAD if they present.
+   * 
+   * @param widgetName widget Name that should be use.
+   * @param header {@link Element} template root.
+   */
+  private void addFilesToHead(final String widgetName, final Element header) {
+    for (HeadFiles headFiles : HeadFiles.values()) {
+      // Add JS/CSS-file to HEAD if it present
+      String headComponentPath = widgetName + "/"
+          + this.properties.getProperty("widget" + headFiles + "Dir");
+      String widgetComponentPathLocal = this.properties
+          .getProperty("widgetsDir")
+          + headComponentPath;
+      String widgetComponentPathWeb = this.properties
+          .getProperty("widgetsWebDir")
+          + headComponentPath;
+
+      if (new File(widgetComponentPathLocal).exists()) {
+        List < String > listComponentFiles = new ArrayList < String >();
+        getFiles(new File(widgetComponentPathLocal), listComponentFiles,
+            widgetName
+                + this.properties.getProperty("widget" + headFiles + "Dir"));
+
+        for (String file : listComponentFiles) {
+          String componentWebFileName = widgetComponentPathWeb + "/" + file;
+          logger.log(Level.INFO, "Found widget " + headFiles + " file: "
+              + componentWebFileName);
+          // Create new LINK/SCRIPT tag
+          String elementType = headFiles == HeadFiles.CSS ? "link" : "script";
+          Element styleElement = new Element(elementType);
+          // Add necessary parameters
+          if (headFiles == HeadFiles.CSS) {
+            styleElement.setAttribute("rel", "stylesheet");
+            styleElement.setAttribute("type", "text/css");
+            styleElement.setAttribute("href", componentWebFileName);
+          } else {
+            styleElement.setAttribute("type", "text/javascript");
+            styleElement.setAttribute("src", componentWebFileName);
+          }
+          // Add LINK/SCRIPT element to HEAD
+          header.addContent(styleElement);
+        }
+      }
+    }
+  }
+
+  // --------------------------------------------------------------------
+  // Private variables
+  // --------------------------------------------------------------------
+  private static final Logger logger     = Logger
+                                             .getLogger(FlowCollectionParser.class
+                                                 .toString());
+  /**
+   * Property instance.
+   */
+  private Properties          properties = readPropertieFile();
+
+  /**
+   * Output writer to JSP page.
+   */
+  private PrintWriter         out        = null;
+
+  /**
+   * HEAD tag files that should be included automatically if they present.
+   */
+  private enum HeadFiles {
+    CSS, JS;
+  };
+
+  /**
+   * HashMap of "id" => "widget".
+   */
+  private HashMap < String, String > flowHash         = null;
+
+  /**
+   * Name of template that should use to create DOM.
+   */
+  private String                     flowTemplate     = null;
+
+  /**
+   * Name of common widget that should include if it present.
+   */
+  private String                     commonWidgetName = null;
+}

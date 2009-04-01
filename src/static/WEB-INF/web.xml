@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+ version="2.5">
+  
+  <display-name>Welcome to Tomcat</display-name>
+  <description>
+    Welcome to Tomcat
+  </description>
+  
+  <!-- URL Rewrite -->
+  <filter>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    <init-param>
+      <param-name>logLevel</param-name>
+      <param-value>WARN</param-value>
+    </init-param>
+  </filter>
+  
+  <filter-mapping>
+    <filter-name>UrlRewriteFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- Servlet configuration -->
+  <!-- START: URL Handle -->
+  <servlet>
+    <servlet-name>urlHandle</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.URLHandle</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>urlHandle</servlet-name>
+    <url-pattern>/urlHandle</url-pattern>
+  </servlet-mapping>
+  <!-- END: URL Handle -->
+  
+  <!-- START: Widget Test Page -->
+  <servlet>
+    <servlet-name>WidgetTestPage</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.WidgetTestPage</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>WidgetTestPage</servlet-name>
+    <url-pattern>/servlets/WidgetTestPage</url-pattern>
+  </servlet-mapping>
+  <!-- END: Widget Test Page -->
+  
+  <!-- START: Flow Creating Page -->
+  <servlet>
+    <servlet-name>FlowCreatingPage</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.FlowCreatingPage</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>FlowCreatingPage</servlet-name>
+    <url-pattern>/servlets/FlowCreatingPage</url-pattern>
+  </servlet-mapping>
+  <!-- END: Flow Creating Page -->
+  
+  <!-- START: Load Widget -->
+  <servlet>
+    <servlet-name>WidgetTest</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.WidgetTest</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>WidgetTest</servlet-name>
+    <url-pattern>/servlets/WidgetTest</url-pattern>
+  </servlet-mapping>
+  <!-- END: Load Widget -->
+  
+  <!-- START: XML2JSON -->
+  <servlet>
+    <servlet-name>XML2JSON</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.XML2JSON</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>XML2JSON</servlet-name>
+    <url-pattern>/servlets/XML2JSON</url-pattern>
+  </servlet-mapping>
+  <!-- END: XML2JSON -->
+  
+  <!-- START: topMenu -->
+  <servlet>
+    <servlet-name>topMenu</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.widgets.ui.siegerstein.topMenu.TopMenu</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>topMenu</servlet-name>
+    <url-pattern>/servlets/widgets/topMenu</url-pattern>
+  </servlet-mapping>
+  <!-- END: topMenu -->
+  
+  <!-- START: topMenu -->
+  <servlet>
+    <servlet-name>Home</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.widgets.ui.siegerstein.dev.home.Home</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>Home</servlet-name>
+    <url-pattern>/servlets/Home</url-pattern>
+  </servlet-mapping>
+  <!-- END: topMenu -->
+  
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/widgets/common/exceptionHandler/exceptionHandler.jsp</location>
+  </error-page>
+  <!--
+  <error-page>
+  <error-code>404</error-code>
+  <location></location>
+  </error-page>
+  -->
+  
+</web-app>

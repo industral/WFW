@@ -1,0 +1,26 @@
+<flows>
+  <flow name='devHome' template='main/dev/devHome' commonWidget='siegerstein/common'>
+    <widgets>
+      <widget id='header'>main/devPages/home/header</widget>
+      <widget id='links'>main/devPages/home/menu</widget>
+      <widget id='footer'>main/devPages/footer</widget>
+    </widgets>
+  </flow>
+  
+  <flow name='WidgetTestPage' template='main/dev/testTemplates/widgetTestPageTemplate'>
+    <widgets>
+      <widget id='menu'>main/devPages/widgetTestPageMenu</widget>
+    </widgets>
+  </flow>
+  
+  <flow name='flow_1' template='main/users/siegerstein/mainSite' commonWidget='siegerstein/common'>
+    <widgets>
+      <widget id='logo'>users/siegerstein/logo</widget>
+      <widget id='topMenu'>users/siegerstein/topMenu</widget>
+      <!-- <widget id='menu'>users/siegerstein/menu</widget> -->
+      <widget id='content'>users/siegerstein/content</widget>
+      <!-- <widget id='bottom'>users/siegerstein/bottom</widget> -->
+    </widgets>
+  </flow>
+  
+</flows>

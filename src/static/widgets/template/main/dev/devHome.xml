@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<ROOT>
+  <head>
+    <title>WFW - Home</title>
+  </head>
+  <body>
+    <div id='header' class='clear'/>
+    <div id='links' class='clear'/>
+    <div id='footer' class='clear'/>
+  </body>
+</ROOT>

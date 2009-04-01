@@ -1,0 +1,19 @@
+a:link {
+  color: #fff;
+}
+
+a:visited {
+  color: #aaa;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background: #fff;
+}
+
+.clear {
+  clear: both;
+}
