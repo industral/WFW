@@ -52,4 +52,9 @@ http://tuckey.org/urlrewrite/
     <from>^/Dev/WidgetTestPage/?$</from>
     <to>/urlHandle?flowId=WidgetTestPage</to>
   </rule>
+  
+  <rule>
+    <from>^/Dev/FlowCreationPage/?$</from>
+    <to>/urlHandle?flowId=FlowCreationPage</to>
+  </rule>
 </urlrewrite>

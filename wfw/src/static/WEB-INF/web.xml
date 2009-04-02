@@ -52,13 +52,13 @@
   
   <!-- START: Flow Creating Page -->
   <servlet>
-    <servlet-name>FlowCreatingPage</servlet-name>
-    <servlet-class>com.siegerstein.wfw.framework.servlets.FlowCreatingPage</servlet-class>
+    <servlet-name>FlowCreationPage</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.FlowCreationPage</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>FlowCreatingPage</servlet-name>
-    <url-pattern>/servlets/FlowCreatingPage</url-pattern>
+    <servlet-name>FlowCreationPage</servlet-name>
+    <url-pattern>/servlets/FlowCreationPage</url-pattern>
   </servlet-mapping>
   <!-- END: Flow Creating Page -->
   
@@ -85,6 +85,18 @@
     <url-pattern>/servlets/XML2JSON</url-pattern>
   </servlet-mapping>
   <!-- END: XML2JSON -->
+  
+  <!-- START: FileProxy -->
+  <servlet>
+    <servlet-name>FileProxy</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.FileProxy</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>FileProxy</servlet-name>
+    <url-pattern>/servlets/FileProxy</url-pattern>
+  </servlet-mapping>
+  <!-- END: FileProxy -->
   
   <!-- START: topMenu -->
   <servlet>

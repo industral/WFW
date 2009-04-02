@@ -58,6 +58,9 @@ public class WidgetTestPage extends HttpServlet {
     PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
         .getOutputStream(), "utf-8"));
 
+    response.setContentType("application/json; charset=utf-8");
+    response.setCharacterEncoding("utf-8");
+
     HashSet < String > widgetsList = new HashSet < String >();
     HashSet < String > commonWidgetsList = new HashSet < String >();
 
@@ -138,7 +141,7 @@ public class WidgetTestPage extends HttpServlet {
   /**
    * UUID.
    */
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = -2439117373264244597L;
 
   /**
    * Property instance.

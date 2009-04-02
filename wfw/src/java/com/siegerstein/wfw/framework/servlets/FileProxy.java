@@ -25,19 +25,21 @@
 
 package com.siegerstein.wfw.framework.servlets;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.HashSet;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.siegerstein.wfw.framework.FlowCollectionParser;
+import static com.siegerstein.wfw.framework.util.Util.readFileToString;
+import static com.siegerstein.wfw.framework.util.Util.readPropertieFile;
+import static com.siegerstein.wfw.framework.util.Util.isPresent;
 
-public class FlowCreatingPage {
+public class FileProxy extends HttpServlet {
 
   // --------------------------------------------------------------------
   // Public methods
@@ -48,22 +50,16 @@ public class FlowCreatingPage {
     PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
         .getOutputStream(), "utf-8"));
 
-    response.setContentType("application/xhtml+xml; charset=utf-8");
-    response.setCharacterEncoding("utf-8");
+    // response.setContentType("application/xhtml+xml; charset=utf-8");
+    // response.setCharacterEncoding("utf-8");
 
-    writer.println("<?xml version='1.0' encoding='utf-8'?>");
-
-    writer
-        .println("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>");
-
-    writer
-        .println("<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>");
-
-    FlowCollectionParser fc = new FlowCollectionParser(writer);
-    fc.process(request.getParameter("flowId"));
-
-    writer.println("</html>");
-
+    if (request.getParameter("requestType").equals("getFile")) {
+      String fileName = request.getParameter("fileName");
+      String fileType = request.getParameter("fileType");
+      if (isPresent(fileName) && isPresent(fileType)) {
+        writer.println(getFile(fileName, FileType.valueOf(fileType)));
+      }
+    }
     writer.close();
   }
 
@@ -71,28 +67,31 @@ public class FlowCreatingPage {
   // Private methods
   // --------------------------------------------------------------------
 
-  private void getTemplates(final File folder, final HashSet < String > list) {
-//    File[] files = folder.listFiles();
-//    for (int j = 0; j < files.length; ++j) {
-//      // Add all widget folder that are not "common"
-//      if (files[j].getName().equals("xml")) {
-//        String widgetName = files[j].toString().substring(
-//            properties.getProperty("widgetsDir").length());
-//
-//        // except "main" widgets
-//        if (!widgetName.startsWith("main/")) {
-//          list.add(files[j].getParent().substring(
-//              properties.getProperty("widgetsDir").length()));
-//        }
-//      }
-//      if (files[j].isDirectory()) {
-//        getWidgets(files[j], list);
-//      }
-//    }
+  private String getFile(final String fileName, FileType fileType) {
+    String pathToTemplate = properties.getProperty("commonTypesDir")
+        + fileType.toString() + "/" + fileName;
+    System.out.println(pathToTemplate);
+    return (readFileToString(pathToTemplate));
   }
 
   // --------------------------------------------------------------------
   // Private variables
   // --------------------------------------------------------------------
 
+  /**
+   * UUID.
+   */
+  private static final long serialVersionUID = 7295463857790227273L;
+
+  /**
+   * File types that can be pass in query.
+   */
+  private enum FileType {
+    templates;
+  };
+
+  /**
+   * Property instance.
+   */
+  private Properties properties = readPropertieFile();
 }

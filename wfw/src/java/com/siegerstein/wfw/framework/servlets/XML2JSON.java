@@ -60,6 +60,9 @@ public class XML2JSON extends HttpServlet {
     PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
         .getOutputStream(), "utf-8"));
 
+    response.setContentType("application/json; charset=utf-8");
+    response.setCharacterEncoding("utf-8");
+
     String fileName = request.getParameter("fileName");
     String type = request.getParameter("type");
 
@@ -95,9 +98,10 @@ public class XML2JSON extends HttpServlet {
   // --------------------------------------------------------------------
 
   /**
-   * 
+   * UUID.
    */
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = -8005240963767458281L;
+
   /**
    * Property instance.
    */

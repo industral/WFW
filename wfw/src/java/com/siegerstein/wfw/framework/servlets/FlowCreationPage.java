@@ -25,18 +25,23 @@
 
 package com.siegerstein.wfw.framework.servlets;
 
+import static com.siegerstein.wfw.framework.util.Util.readPropertieFile;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.siegerstein.wfw.framework.FlowCollectionParser;
+import com.google.gson.Gson;
 
-public class WidgetTest extends HttpServlet {
+public class FlowCreationPage extends HttpServlet {
 
   // --------------------------------------------------------------------
   // Public methods
@@ -47,25 +52,39 @@ public class WidgetTest extends HttpServlet {
     PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
         .getOutputStream(), "utf-8"));
 
-    response.setContentType("application/xhtml+xml; charset=utf-8");
+    response.setContentType("application/json; charset=utf-8");
     response.setCharacterEncoding("utf-8");
 
-    writer.println("<?xml version='1.0' encoding='utf-8'?>");
+    HashSet < String > listOfTemplates = new HashSet < String >();
 
-    writer
-        .println("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Strict//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd'>");
+    getTemplates(new File(properties.getProperty("templateDir")),
+        listOfTemplates);
 
-    writer
-        .println("<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en' lang='en'>");
-
-    FlowCollectionParser fc = new FlowCollectionParser(writer);
-    String commonWidgetName = request.getParameter("commonWidgetName");
-
-    fc.testWidget(request.getParameter("widgetName"), commonWidgetName);
-
-    writer.println("</html>");
+    writer.println(new Gson().toJson(listOfTemplates));
 
     writer.close();
+  }
+
+  // --------------------------------------------------------------------
+  // Private methods
+  // --------------------------------------------------------------------
+
+  private void getTemplates(final File folder, final HashSet < String > list) {
+    File[] files = folder.listFiles();
+    for (int j = 0; j < files.length; ++j) {
+      // add all .xml files
+      if (files[j].getName().contains(".xml") && files[j].isFile()) {
+        String templateFile = files[j].toString().substring(
+            properties.getProperty("templateDir").length());
+        // Skip main folder
+        if (!templateFile.startsWith("main/")) {
+          list.add(templateFile);
+        }
+      }
+      if (files[j].isDirectory()) {
+        getTemplates(files[j], list);
+      }
+    }
   }
 
   // --------------------------------------------------------------------
@@ -75,5 +94,10 @@ public class WidgetTest extends HttpServlet {
   /**
    * UUID.
    */
-  private static final long serialVersionUID = 3199502133601203228L;
+  private static final long serialVersionUID = -4111920390608057802L;
+
+  /**
+   * Property instance.
+   */
+  private Properties        properties       = readPropertieFile();
 }

@@ -1,19 +1,27 @@
 <flows>
-  <flow name='devHome' template='main/dev/devHome' commonWidget='siegerstein/common'>
+  <!-- BEGIN Common framework flow's -->
+  <flow name='devHome' template='main/Dev/devHome' commonWidget='siegerstein/common'>
     <widgets>
-      <widget id='header'>main/devPages/home/header</widget>
-      <widget id='links'>main/devPages/home/menu</widget>
-      <widget id='footer'>main/devPages/footer</widget>
+      <widget id='header'>main/DevPages/home/header</widget>
+      <widget id='links'>main/DevPages/home/menu</widget>
+      <widget id='footer'>main/DevPages/footer</widget>
     </widgets>
   </flow>
   
-  <flow name='WidgetTestPage' template='main/dev/testTemplates/widgetTestPageTemplate'>
+  <flow name='WidgetTestPage' template='main/Dev/TestTemplates/Widget'>
     <widgets>
-      <widget id='menu'>main/devPages/widgetTestPageMenu</widget>
+      <widget id='menu'>main/DevPages/TestPages/Widget/menu</widget>
     </widgets>
   </flow>
   
-  <flow name='flow_1' template='main/users/siegerstein/mainSite' commonWidget='siegerstein/common'>
+  <flow name='FlowCreationPage' template='main/Dev/TestTemplates/FlowCreation'>
+    <widgets>
+      <widget id='menu'>main/DevPages/TestPages/FlowCreation/menu</widget>
+    </widgets>
+  </flow>
+  <!-- END Common framework flow's -->
+  
+  <flow name='flow_1' template='users/siegerstein/mainSite' commonWidget='siegerstein/common'>
     <widgets>
       <widget id='logo'>users/siegerstein/logo</widget>
       <widget id='topMenu'>users/siegerstein/topMenu</widget>
@@ -22,5 +30,4 @@
       <!-- <widget id='bottom'>users/siegerstein/bottom</widget> -->
     </widgets>
   </flow>
-  
 </flows>

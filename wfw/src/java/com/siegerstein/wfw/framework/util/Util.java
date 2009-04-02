@@ -25,9 +25,11 @@
 
 package com.siegerstein.wfw.framework.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -106,6 +108,23 @@ public class Util {
     writer.close();
   }
 
+  public static String readFileToString(String fileName) {
+    String outputLine = "";
+    try {
+      String sCurrentLine = null;
+      BufferedReader br = new BufferedReader(new FileReader(fileName));
+      while ((sCurrentLine = br.readLine()) != null) {
+        outputLine += sCurrentLine;
+      }
+
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return (outputLine);
+  }
+  
   // --------------------------------------------------------------------
   // Private methods
   // --------------------------------------------------------------------

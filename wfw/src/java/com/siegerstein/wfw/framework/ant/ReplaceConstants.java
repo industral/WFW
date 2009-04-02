@@ -25,13 +25,11 @@
 
 package com.siegerstein.wfw.framework.ant;
 
+import static com.siegerstein.wfw.framework.util.Util.readFileToString;
 import static com.siegerstein.wfw.framework.util.Util.readPropertieFile;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,23 +51,6 @@ public class ReplaceConstants {
         + "/webapps/ROOT" + replaceConstants.properties.getProperty("widgetsWebDir")),
         listComponentFiles, filesList);
     replaceConstants.replaceConstants(filesList);
-  }
-
-  private String readFileToString(String fileName) {
-    String outputLine = "";
-    try {
-      String sCurrentLine = null;
-      BufferedReader br = new BufferedReader(new FileReader(fileName));
-      while ((sCurrentLine = br.readLine()) != null) {
-        outputLine += sCurrentLine;
-      }
-
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return (outputLine);
   }
 
   private void getFiles(final File folder, final List < String > list,

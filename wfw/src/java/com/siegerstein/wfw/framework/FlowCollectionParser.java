@@ -272,8 +272,9 @@ public class FlowCollectionParser {
    * 
    * @param widgetName widget Name that should be use.
    * @param header {@link Element} template root.
+   * @return
    */
-  private void addFilesToHead(final String widgetName, final Element header) {
+  private boolean addFilesToHead(final String widgetName, final Element header) {
     for (HeadFiles headFiles : HeadFiles.values()) {
       // Add JS/CSS-file to HEAD if it present
       String headComponentPath = widgetName + "/"
@@ -290,6 +291,13 @@ public class FlowCollectionParser {
         getFiles(new File(widgetComponentPathLocal), listComponentFiles,
             widgetName
                 + this.properties.getProperty("widget" + headFiles + "Dir"));
+
+        // TODO: Need to change from String to File
+//        for (String file : listComponentFiles) {
+//          if (file.contains(".wfw-ignore")) {
+//            return false;
+//          }
+//        }
 
         for (String file : listComponentFiles) {
           String componentWebFileName = widgetComponentPathWeb + "/" + file;
@@ -312,6 +320,7 @@ public class FlowCollectionParser {
         }
       }
     }
+    return true;
   }
 
   // --------------------------------------------------------------------
