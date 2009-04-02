@@ -27,6 +27,7 @@ package com.siegerstein.wfw.framework;
 
 import static com.siegerstein.wfw.framework.util.Util.isPresent;
 import static com.siegerstein.wfw.framework.util.Util.readPropertieFile;
+import static com.siegerstein.wfw.framework.util.Util.getIgnoredFiles;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -192,12 +194,11 @@ public class FlowCollectionParser {
     Element templateBODY = templateRootList.get(1);
 
     // Add common widget files. Should be the first before users widgets
-    this.addFilesToHead(this.properties.getProperty("commonWidgetName"),
-        templateHEAD);
+    this.addHEADFiles(this.properties.getProperty("commonWidgetName"));
 
     // If present common user widget add it to HEAD
     if (isPresent(this.commonWidgetName)) {
-      this.addFilesToHead(this.commonWidgetName, templateHEAD);
+      this.addHEADFiles(this.commonWidgetName);
     }
 
     for (Element divObj : (List < Element >) (templateBODY.getChildren())) {
@@ -226,12 +227,15 @@ public class FlowCollectionParser {
           }
 
           // Add widget HEAD
-          this.addFilesToHead(widgetName, templateHEAD);
+          this.addHEADFiles(widgetName);
           // Add widget content
           divObj.setContent(widgetDoc.getRootElement().cloneContent());
         }
       }
     }
+
+    this.createHeadElements(templateHEAD);
+
     Format format = Format.getPrettyFormat();
     XMLOutputter outp = new XMLOutputter(format);
     try {
@@ -252,7 +256,9 @@ public class FlowCollectionParser {
       String widgetName) {
     File[] files = folder.listFiles();
     for (int j = 0; j < files.length; ++j) {
-      if (files[j].isFile()) {
+      if (files[j].isFile()
+          && (files[j].getName().endsWith(".js") || files[j].getName()
+              .endsWith(".css"))) {
 
         // Widget path, for example: ../webapps/ROOT/widgets/ui/siegerstein/logo
         String widgetPath = properties.getProperty("widgetsDir") + widgetName;
@@ -271,10 +277,9 @@ public class FlowCollectionParser {
    * Add present CSS/JS files to HEAD if they present.
    * 
    * @param widgetName widget Name that should be use.
-   * @param header {@link Element} template root.
    * @return
    */
-  private boolean addFilesToHead(final String widgetName, final Element header) {
+  private void addHEADFiles(final String widgetName) {
     for (HeadFiles headFiles : HeadFiles.values()) {
       // Add JS/CSS-file to HEAD if it present
       String headComponentPath = widgetName + "/"
@@ -292,35 +297,53 @@ public class FlowCollectionParser {
             widgetName
                 + this.properties.getProperty("widget" + headFiles + "Dir"));
 
-        // TODO: Need to change from String to File
-//        for (String file : listComponentFiles) {
-//          if (file.contains(".wfw-ignore")) {
-//            return false;
-//          }
-//        }
-
         for (String file : listComponentFiles) {
           String componentWebFileName = widgetComponentPathWeb + "/" + file;
           logger.log(Level.INFO, "Found widget " + headFiles + " file: "
               + componentWebFileName);
-          // Create new LINK/SCRIPT tag
-          String elementType = headFiles == HeadFiles.CSS ? "link" : "script";
-          Element styleElement = new Element(elementType);
-          // Add necessary parameters
-          if (headFiles == HeadFiles.CSS) {
-            styleElement.setAttribute("rel", "stylesheet");
-            styleElement.setAttribute("type", "text/css");
-            styleElement.setAttribute("href", componentWebFileName);
-          } else {
-            styleElement.setAttribute("type", "text/javascript");
-            styleElement.setAttribute("src", componentWebFileName);
-          }
-          // Add LINK/SCRIPT element to HEAD
-          header.addContent(styleElement);
+          headFilesList.add(componentWebFileName);
         }
       }
     }
-    return true;
+  }
+
+  private void createHeadElements(Element head) {
+    // remove from list all ignored files
+    this.headFilesList.removeAll(getIgnoredFiles());
+
+    HashSet < Element > cssList = new HashSet < Element >();
+    HashSet < Element > jsList = new HashSet < Element >();
+
+    for (String headFile : this.headFilesList) {
+      String elementType = null;
+      if (headFile.endsWith(".css")) {
+        elementType = "link";
+      } else if (headFile.endsWith(".js")) {
+        elementType = "script";
+      }
+
+      // Create new LINK/SCRIPT tag
+      Element styleElement = new Element(elementType);
+
+      // Add necessary parameters
+      if (elementType.equals("link")) {
+        styleElement.setAttribute("rel", "stylesheet");
+        styleElement.setAttribute("type", "text/css");
+        styleElement.setAttribute("href", headFile);
+        cssList.add(styleElement);
+      } else {
+        styleElement.setAttribute("type", "text/javascript");
+        styleElement.setAttribute("src", headFile);
+        jsList.add(styleElement);
+      }
+    }
+
+    for (Element el : cssList) {
+      head.addContent(el);
+    }
+    for (Element el : jsList) {
+      head.addContent(el);
+    }
   }
 
   // --------------------------------------------------------------------
@@ -360,4 +383,6 @@ public class FlowCollectionParser {
    * Name of common widget that should include if it present.
    */
   private String                     commonWidgetName = null;
+
+  private HashSet < String >         headFilesList    = new HashSet < String >();
 }

@@ -34,7 +34,10 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletResponse;
@@ -110,11 +113,20 @@ public class Util {
 
   public static String readFileToString(String fileName) {
     String outputLine = "";
+    List < String > outputList = readFileToList(fileName);
+    for (String s : outputList) {
+      outputLine += s;
+    }
+    return (outputLine);
+  }
+
+  public static List < String > readFileToList(String fileName) {
+    List < String > outputList = new LinkedList < String >();
     try {
       String sCurrentLine = null;
       BufferedReader br = new BufferedReader(new FileReader(fileName));
       while ((sCurrentLine = br.readLine()) != null) {
-        outputLine += sCurrentLine;
+        outputList.add(sCurrentLine);
       }
 
     } catch (FileNotFoundException e) {
@@ -122,9 +134,41 @@ public class Util {
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return (outputLine);
+    return (outputList);
   }
-  
+
+  public static Collection < String > getIgnoredFiles() {
+    Collection < String > filesList = readFileToList(properties
+        .getProperty("ignoreFile"));
+
+    HashSet < String > outputHashSet = new HashSet < String >();
+    for (String s : filesList) {
+      if (new File(properties.getProperty("rootDir") + s).isFile()) {
+        outputHashSet.add(s);
+      } else {
+        HashSet < String > hs = new HashSet < String >();
+        getFiles(new File(properties.getProperty("rootDir") + s), hs);
+        outputHashSet.addAll(hs);
+      }
+    }
+    return (outputHashSet);
+  }
+
+  private static void getFiles(final File folder, final HashSet < String > list) {
+    File[] files = folder.listFiles();
+    for (int j = 0; j < files.length; ++j) {
+      if (files[j].isFile()
+          && (files[j].getName().endsWith(".js") || files[j].getName()
+              .endsWith(".css"))) {
+        list.add(files[j].toString().substring(
+            properties.getProperty("rootDir").length() - 1));
+      }
+      if (files[j].isDirectory()) {
+        getFiles(files[j], list);
+      }
+    }
+  }
+
   // --------------------------------------------------------------------
   // Private methods
   // --------------------------------------------------------------------
