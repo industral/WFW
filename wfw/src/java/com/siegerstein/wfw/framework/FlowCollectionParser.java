@@ -25,9 +25,10 @@
 
 package com.siegerstein.wfw.framework;
 
-import static com.siegerstein.wfw.framework.util.Util.isPresent;
-import static com.siegerstein.wfw.framework.util.Util.readPropertieFile;
 import static com.siegerstein.wfw.framework.util.Util.getIgnoredFiles;
+import static com.siegerstein.wfw.framework.util.Util.isPresent;
+import static com.siegerstein.wfw.framework.util.Util.readFileToList;
+import static com.siegerstein.wfw.framework.util.Util.readPropertieFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,7 +37,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -291,7 +292,44 @@ public class FlowCollectionParser {
           .getProperty("widgetsWebDir")
           + headComponentPath;
 
-      if (new File(widgetComponentPathLocal).exists()) {
+      // var to check if present in folder order file
+      boolean order = false;
+
+      // Check if in folder present file .wfw-order
+      File[] fileList = new File(widgetComponentPathLocal).listFiles();
+      for (int i = 0; i < fileList.length; ++i) {
+        if (fileList[i].getName().equals(".wfw-order")) {
+          order = true;
+        }
+      }
+
+      // if order file present follow him
+      if (order) {
+        List < String > list = readFileToList(widgetComponentPathLocal + "/"
+            + ".wfw-order");
+        for (String s : list) {
+          if (!s.trim().isEmpty()) {
+            String localPath = widgetComponentPathLocal + "/" + s;
+            if (new File(localPath).isFile()) {
+              headFilesList.add(widgetComponentPathWeb + "/" + s);
+            } else {
+              List < String > listComponentFiles = new ArrayList < String >();
+              getFiles(new File(localPath), listComponentFiles, widgetName
+                  + this.properties.getProperty("widget" + headFiles + "Dir"));
+              for (String file : listComponentFiles) {
+                String componentWebFileName = widgetComponentPathWeb + "/"
+                    + file;
+                logger.log(Level.INFO, "Found widget " + headFiles + " file: "
+                    + componentWebFileName);
+                headFilesList.add(componentWebFileName);
+              }
+            }
+          }
+        }
+      }
+
+      // if no order file just run recursive across all folders inside
+      if (!order) {
         List < String > listComponentFiles = new ArrayList < String >();
         getFiles(new File(widgetComponentPathLocal), listComponentFiles,
             widgetName
@@ -311,8 +349,8 @@ public class FlowCollectionParser {
     // remove from list all ignored files
     this.headFilesList.removeAll(getIgnoredFiles());
 
-    HashSet < Element > cssList = new HashSet < Element >();
-    HashSet < Element > jsList = new HashSet < Element >();
+    List < Element > cssList = new LinkedList < Element >();
+    List < Element > jsList = new LinkedList < Element >();
 
     for (String headFile : this.headFilesList) {
       String elementType = null;
@@ -334,6 +372,7 @@ public class FlowCollectionParser {
       } else {
         styleElement.setAttribute("type", "text/javascript");
         styleElement.setAttribute("src", headFile);
+        styleElement.setText("&nbsp;"); // Firefox bug
         jsList.add(styleElement);
       }
     }
@@ -384,5 +423,5 @@ public class FlowCollectionParser {
    */
   private String                     commonWidgetName = null;
 
-  private HashSet < String >         headFilesList    = new HashSet < String >();
+  private List < String >            headFilesList    = new LinkedList < String >();
 }

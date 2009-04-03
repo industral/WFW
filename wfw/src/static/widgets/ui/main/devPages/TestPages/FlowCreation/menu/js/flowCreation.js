@@ -1,4 +1,5 @@
 window.onload = function(){
+	hljs.initHighlightingOnLoad();
     $.getJSON('/servlets/FlowCreationPage', {}, function(json){
         // Template List
         var selectEl = [{
@@ -26,8 +27,9 @@ function loadTemplate(param){
         fileName: templateName,
         fileType: "templates"
     }, function(data){
-        String.t
-        $("#templateCode").text(data);
-        hljs.initHighlightingOnLoad('html');
+        /*
+$("#contentCode").text(data);
+*/
+        hljs.initHighlightingOnLoad();
     });
 }
