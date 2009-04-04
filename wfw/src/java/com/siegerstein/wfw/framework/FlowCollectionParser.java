@@ -296,10 +296,14 @@ public class FlowCollectionParser {
       boolean order = false;
 
       // Check if in folder present file .wfw-order
-      File[] fileList = new File(widgetComponentPathLocal).listFiles();
-      for (int i = 0; i < fileList.length; ++i) {
-        if (fileList[i].getName().equals(".wfw-order")) {
-          order = true;
+      // We need to check if folder is exists, because css and js foder is
+      // optional
+      if (new File(widgetComponentPathLocal).exists()) {
+        File[] fileList = new File(widgetComponentPathLocal).listFiles();
+        for (int i = 0; i < fileList.length; ++i) {
+          if (fileList[i].getName().equals(".wfw-order")) {
+            order = true;
+          }
         }
       }
 
@@ -330,16 +334,18 @@ public class FlowCollectionParser {
 
       // if no order file just run recursive across all folders inside
       if (!order) {
-        List < String > listComponentFiles = new ArrayList < String >();
-        getFiles(new File(widgetComponentPathLocal), listComponentFiles,
-            widgetName
-                + this.properties.getProperty("widget" + headFiles + "Dir"));
+        if (new File(widgetComponentPathLocal).exists()) {
+          List < String > listComponentFiles = new ArrayList < String >();
+          getFiles(new File(widgetComponentPathLocal), listComponentFiles,
+              widgetName
+                  + this.properties.getProperty("widget" + headFiles + "Dir"));
 
-        for (String file : listComponentFiles) {
-          String componentWebFileName = widgetComponentPathWeb + "/" + file;
-          logger.log(Level.INFO, "Found widget " + headFiles + " file: "
-              + componentWebFileName);
-          headFilesList.add(componentWebFileName);
+          for (String file : listComponentFiles) {
+            String componentWebFileName = widgetComponentPathWeb + "/" + file;
+            logger.log(Level.INFO, "Found widget " + headFiles + " file: "
+                + componentWebFileName);
+            headFilesList.add(componentWebFileName);
+          }
         }
       }
     }

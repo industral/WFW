@@ -115,7 +115,7 @@ public class Util {
     String outputLine = "";
     List < String > outputList = readFileToList(fileName);
     for (String s : outputList) {
-      outputLine += s;
+      outputLine += s + "\r\n";
     }
     return (outputLine);
   }

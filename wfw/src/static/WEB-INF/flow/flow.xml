@@ -1,6 +1,6 @@
 <flows>
   <!-- BEGIN Common framework flow's -->
-  <flow name='devHome' template='main/Dev/devHome' commonWidget='siegerstein/common'>
+  <flow name='devHome' template='main/Dev/devHome' commonWidget='users/siegerstein/common'>
     <widgets>
       <widget id='header'>main/DevPages/home/header</widget>
       <widget id='links'>main/DevPages/home/menu</widget>
@@ -21,7 +21,7 @@
   </flow>
   <!-- END Common framework flow's -->
   
-  <flow name='flow_1' template='users/siegerstein/mainSite' commonWidget='siegerstein/common'>
+  <flow name='flow_1' template='users/siegerstein/mainSite' commonWidget='users/siegerstein/common'>
     <widgets>
       <widget id='logo'>users/siegerstein/logo</widget>
       <widget id='topMenu'>users/siegerstein/topMenu</widget>

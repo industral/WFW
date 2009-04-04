@@ -7,24 +7,12 @@
   </head>
   <body>
     <script type='text/javascript'>
-      hljs.initHighlightingOnLoad();
+      sh_highlightDocument();
     </script>
     <div id='header' class='clear'/>
     <div id='menu' class='clear'/>
     <div id='content' class='clear'>
-      
-      <pre>
-        <code>&lt;?xml version="1.0"?&gt;
-          &lt;response value="ok" xml:lang="en"&gt;
-          &lt;text&gt;Ok&lt;/text&gt;
-          &lt;comment/&gt;
-          &lt;ns:description&gt;&lt;![CDATA[
-          CDATA is &lt;not&gt; magical.
-          ]]&gt;&lt;/ns:description&gt;
-          &lt;/response&gt;
-        </code>
-      </pre>
-      
+      <pre id='codeContent' class='sh_xml'></pre>
     </div>
     <div id='bottom' class='clear'/>
   </body>
