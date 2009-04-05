@@ -36,6 +36,9 @@ public class Home extends HttpServlet {
   public void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
+    response.setContentType("application/json; charset=utf-8");
+    response.setCharacterEncoding("utf-8");
+
     YAML2JSON(getClass().getName(), "links.yml", response);
   }
 

@@ -1,0 +1,32 @@
+#searchInputId {
+  border: none;
+  font-weight: bold;
+  height: 26px;
+  margin: 0;
+  padding: 6px 0 0 9px;
+  width: 85px;
+  float: left;
+}
+
+#searchButtonId {
+  border: none;
+  height: 26px;
+  width: 20px;
+  cursor: pointer;
+}
+
+.searchInputNormal {
+  background: url('@WIDGET_PATH@/img/search.png') no-repeat scroll 0 -39px;
+}
+
+.searchInputSelect {
+  background: url('@WIDGET_PATH@/img/search.png') no-repeat scroll 0 0;
+}
+
+.searchButtonNormal {
+  background: url('@WIDGET_PATH@/img/search.png') no-repeat scroll -100px -39px;
+}
+
+.searchButtonSelect {
+  background: url('@WIDGET_PATH@/img/search.png') no-repeat scroll -100px 0;
+}

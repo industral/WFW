@@ -5,10 +5,10 @@ function Content(contentName){
      });
      */
     if (contentName == "about") {
-        $("#content").load("/widgets/ui/siegerstein/content/xml/about.xml");
+        $("#content").load("@WIDGET_PATH@/xml/about.xml");
     }
     else 
         if (contentName == "contacts") {
-            $("#content").load("/widgets/ui/siegerstein/content/xml/contacts.xml");
+            $("#content").load("@WIDGET_PATH@/xml/contacts.xml");
         }
 }

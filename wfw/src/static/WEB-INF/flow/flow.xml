@@ -25,6 +25,7 @@
     <widgets>
       <widget id='logo'>users/siegerstein/logo</widget>
       <widget id='topMenu'>users/siegerstein/topMenu</widget>
+	  <widget id='search'>users/siegerstein/search</widget>
       <!-- <widget id='menu'>users/siegerstein/menu</widget> -->
       <widget id='content'>users/siegerstein/content</widget>
       <!-- <widget id='bottom'>users/siegerstein/bottom</widget> -->

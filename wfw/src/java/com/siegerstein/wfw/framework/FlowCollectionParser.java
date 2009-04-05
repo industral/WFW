@@ -91,7 +91,7 @@ public class FlowCollectionParser {
    */
   public final void testWidget(final String widgetName,
       final String commonWidgetName) throws FileNotFoundException {
-    this.flowTemplate = "main/dev/testTemplates/widgetTestTemplate";
+    this.flowTemplate = this.properties.getProperty("testTemplate");
 
     this.commonWidgetName = commonWidgetName;
 
@@ -378,7 +378,7 @@ public class FlowCollectionParser {
       } else {
         styleElement.setAttribute("type", "text/javascript");
         styleElement.setAttribute("src", headFile);
-        styleElement.setText("&nbsp;"); // Firefox bug
+        styleElement.setText("&nbsp;"); // need to have close tag
         jsList.add(styleElement);
       }
     }

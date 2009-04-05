@@ -47,8 +47,10 @@ public class ReplaceConstants {
     ReplaceConstants replaceConstants = new ReplaceConstants();
     List < File > filesList = new LinkedList < File >();
     List < String > listComponentFiles = new ArrayList < String >();
-    replaceConstants.getFiles(new File(replaceConstants.properties.getProperty("CATALINA_HOME")
-        + "/webapps/ROOT" + replaceConstants.properties.getProperty("widgetsWebDir")),
+    replaceConstants.getFiles(new File(replaceConstants.properties
+        .getProperty("CATALINA_HOME")
+        + "/webapps/ROOT"
+        + replaceConstants.properties.getProperty("widgetsWebDir")),
         listComponentFiles, filesList);
     replaceConstants.replaceConstants(filesList);
   }
@@ -58,12 +60,14 @@ public class ReplaceConstants {
     File[] files = folder.listFiles();
 
     for (int j = 0; j < files.length; ++j) {
-      if (files[j].isFile() && files[j].getName().contains(".css")) {
+      if (files[j].isFile()
+          && (files[j].getName().endsWith(".css") || files[j].getName()
+              .endsWith(".js"))) {
         filesList.add(files[j]);
       }
 
       // Add all widget folder that are not "common"
-      if (files[j].getName().equals("css")) {
+      if (files[j].getName().equals("css") || files[j].getName().equals("js")) {
         // Check if in folder present css-file
         if (files[j].listFiles().length != 0) {
 

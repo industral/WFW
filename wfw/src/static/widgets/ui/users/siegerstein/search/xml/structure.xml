@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<ROOT>
+  <input type='text' id='searchInputId' class='searchInputNormal' value='Search'/>
+  <input type='button' id='searchButtonId' class='searchButtonNormal'/>
+</ROOT>

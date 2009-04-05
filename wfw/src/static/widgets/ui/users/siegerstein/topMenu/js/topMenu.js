@@ -1,4 +1,4 @@
-window.onload = function(){
+function loadTopMenu(){
     $.getJSON('/servlets/widgets/topMenu', {}, function(json){
         var ulElement = [{
             tagName: 'ul',

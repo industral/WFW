@@ -21,6 +21,8 @@ package com.siegerstein.wfw.framework.widgets.ui.siegerstein.topMenu;
 import static com.siegerstein.wfw.framework.util.Util.YAML2JSON;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,6 +37,9 @@ public class TopMenu extends HttpServlet {
 
   public void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+
+    response.setContentType("application/json; charset=utf-8");
+    response.setCharacterEncoding("utf-8");
 
     YAML2JSON(getClass().getName(), "links.yml", response);
   }
