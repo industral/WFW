@@ -1,9 +1,3 @@
-- Need to provide changing position of widgets in flow. It can't be in CSS, as widgets is
-separated items.
-
 - Add Flows Page (flows paths)
 
-- topMenu | not finished
-
-- XMLInfo - first letter from UpperCase
 - Found the way <script></script>

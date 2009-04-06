@@ -1,4 +1,4 @@
-window.onload = function(){
+function widgetTestPage(){
     $.getJSON('/servlets/WidgetTestPage', {}, function(json){
         // Widgets List
         var selectEl = [{

@@ -40,6 +40,10 @@
   margin: 0 5px 0 0;
 }
 
+.describeLabel:first-letter {
+  text-transform: uppercase;
+}
+
 #widgetInfo {
   width: 500px;
 }

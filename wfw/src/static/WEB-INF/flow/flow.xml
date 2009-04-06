@@ -4,23 +4,26 @@
     <widgets>
       <widget id='header'>main/dev/home/header</widget>
       <widget id='links'>main/dev/home/menu</widget>
-      <widget id='footer'>main/dev/footer</widget>
+      <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
   
   <flow name='WidgetTestPage' template='main/Dev/TestTemplates/Widget'>
     <widgets>
       <widget id='menu'>main/dev/TestPages/Widget/menu</widget>
+      <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
   
   <flow name='FlowCreationPage' template='main/Dev/TestTemplates/FlowCreation'>
     <widgets>
       <widget id='menu'>main/dev/TestPages/FlowCreation/menu</widget>
+      <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
   <!-- END Common framework flow's -->
   
+  <!-- Start users flow's -->
   <flow name='flow_1' template='users/siegerstein/mainSite' commonWidget='users/siegerstein/common'>
     <widgets>
       <widget id='logo' position='relative' left='300px' top='65px'>users/siegerstein/logo</widget>
@@ -31,4 +34,5 @@
       <widget id='bottom' position='absolute' right='10px' bottom='10px'>users/siegerstein/bottom</widget>
     </widgets>
   </flow>
+  <!-- End users flow's -->
 </flows>
