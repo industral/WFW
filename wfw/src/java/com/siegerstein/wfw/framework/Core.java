@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -75,7 +76,10 @@ public class Core {
    * @param flowId Flow name.
    * @throws FileNotFoundException when some thing is missing in flow.
    */
-  public final void process(final String flowId) throws FileNotFoundException {
+  public final void process(final String flowId)
+    throws FileNotFoundException {
+    // set FLOW type build document.
+    this.buildType = BuildType.FLOW;
     this.createFlowHashMap(flowId);
     this.outputBuilder();
   }
@@ -87,7 +91,9 @@ public class Core {
    * @throws FileNotFoundException when some thing is missing in flow.
    */
   public final void testWidget(final String widgetName,
-      final String aCommonWidgetName) throws FileNotFoundException {
+    final String aCommonWidgetName) throws FileNotFoundException {
+    // set WIDGET type build document.
+    this.buildType = BuildType.WIDGET;
     this.flowTemplate = this.properties.getProperty("testTemplate");
 
     this.commonWidgetName = aCommonWidgetName;
@@ -134,12 +140,13 @@ public class Core {
    */
   @SuppressWarnings("unchecked")
   private void createFlowHashMap(final String flowId)
-      throws FileNotFoundException {
+    throws FileNotFoundException {
     // Create flow hashMap ("id" => "widgetName")
     this.flowHash = new HashMap<String, String>();
 
     // Find flow with flowId name
-    for (Element obj : (List<Element>) this.parseFlow().getChildren("flow")) {
+    for (Element obj : (List<Element>) this.parseFlow()
+        .getChildren("flow")) {
       if ((obj.getAttributeValue("name").equals(flowId))) {
         this.flowTemplate = obj.getAttributeValue("template");
         this.commonWidgetName = obj.getAttributeValue("commonWidget");
@@ -149,9 +156,82 @@ public class Core {
           // Populate hash with "id" => "widgetName"
           this.flowHash.put(widgetObj.getAttributeValue("id"), widgetObj
               .getValue());
+          // Populate hash with "widgetName" => "id"
+          this.flowHashReverse.put(widgetObj.getValue(), widgetObj
+              .getAttributeValue("id"));
         }
       }
     }
+  }
+
+  /**
+   * Search CSS styles in flow for widget and add it to XML.
+   * @param widgetName widget name.
+   * @throws FileNotFoundException if flow file not found.
+   */
+  private void addWidgetPosition(final String widgetName)
+    throws FileNotFoundException {
+    HashSet<String> cssList = this.getWidgetCSS(widgetName);
+
+    // if any CSS options available, call next method
+    if (!cssList.isEmpty()) {
+      this.createWidgetCSS(widgetName, cssList);
+    }
+  }
+
+  /**
+   * Create embedded CSS for each widget which have this property in flow file.
+   * @param widgetName widget name for which CSS should be created.
+   * @return collection with CSS styles.
+   * @throws FileNotFoundException if flow file not found.
+   */
+  @SuppressWarnings("unchecked")
+  private HashSet<String> getWidgetCSS(final String widgetName)
+    throws FileNotFoundException {
+    HashSet<String> cssCollection = new HashSet<String>();
+    for (Element flowObj : (List<Element>) this.parseFlow().getChildren(
+        "flow")) {
+      for (Element widgetObj : (List<Element>) flowObj.getChild("widgets")
+          .getChildren("widget")) {
+        if (widgetObj.getValue().trim().equals(widgetName)) {
+          String positionVal = widgetObj.getAttributeValue("position");
+          String xVal = widgetObj.getAttributeValue("x");
+          String yVal = widgetObj.getAttributeValue("y");
+          if (isPresent(positionVal)) {
+            cssCollection.add("position: " + positionVal);
+          }
+          if (isPresent(xVal)) {
+            cssCollection.add("left: " + xVal);
+          }
+          if (isPresent(yVal)) {
+            cssCollection.add("top: " + yVal);
+          }
+        }
+      }
+    }
+    return (cssCollection);
+  }
+
+  /**
+   * Create CSS styles from CSS list and add it to HEAD tag.
+   * @param widgetName widget name.
+   * @param cssList CSS list with CSS properties.
+   */
+  private void createWidgetCSS(final String widgetName,
+    final HashSet<String> cssList) {
+    if (this.embeddedCSS == null) {
+      this.embeddedCSS = new Element("style");
+      this.embeddedCSS.setAttribute("type", "text/css");
+    }
+
+    this.embeddedCSS.addContent("#" + this.flowHashReverse.get(widgetName)
+        + " {");
+
+    for (String cssStyle : cssList) {
+      this.embeddedCSS.addContent(cssStyle + "; \r\n");
+    }
+
+    this.embeddedCSS.addContent(" }");
   }
 
   /**
@@ -186,7 +266,8 @@ public class Core {
   @SuppressWarnings("unchecked")
   private void outputBuilder() throws FileNotFoundException {
     Element templateRoot = this.getTemplateRoot();
-    List<Element> templateRootList = (List<Element>) templateRoot.getChildren();
+    List<Element> templateRootList =
+        (List<Element>) templateRoot.getChildren();
     Element templateHEAD = templateRootList.get(0);
     this.templateBODY = templateRootList.get(1);
 
@@ -217,9 +298,10 @@ public class Core {
                     + this.properties.getProperty("widgetXMLFile")));
           } catch (FileNotFoundException e) {
             e.printStackTrace();
-            throw new FileNotFoundException("One of widget can't be found."
-                + "Ensure that you defined right file names"
-                + "in 'flow/flow.xml'");
+            throw new FileNotFoundException(
+                "One of widget can't be found."
+                    + "Ensure that you defined right file names"
+                    + "in 'flow/flow.xml'");
           } catch (JDOMException e) {
             e.printStackTrace();
           } catch (IOException e) {
@@ -228,6 +310,7 @@ public class Core {
 
           // Add widget HEAD
           this.addHEADFiles(widgetName);
+
           // Add widget content
           divObj.addContent(widgetDoc.getRootElement().cloneContent());
         }
@@ -235,6 +318,11 @@ public class Core {
     }
 
     this.createHeadElements(templateHEAD);
+
+    // If available embedded CSS, add it
+    if (this.embeddedCSS != null) {
+      templateHEAD.addContent(this.embeddedCSS);
+    }
 
     Format format = Format.getPrettyFormat();
     XMLOutputter outp = new XMLOutputter(format);
@@ -253,7 +341,7 @@ public class Core {
    * @param widgetName widget name which files should be found.
    */
   private void getFiles(final File folder, final List<String> list,
-      final String widgetName) {
+    final String widgetName) {
     File[] files = folder.listFiles();
     for (int j = 0; j < files.length; ++j) {
       if (files[j].isFile()
@@ -261,7 +349,8 @@ public class Core {
               .endsWith(".css"))) {
 
         // Widget path, for example: ../webapps/ROOT/widgets/ui/siegerstein/logo
-        String widgetPath = properties.getProperty("widgetsDir") + widgetName;
+        String widgetPath =
+            properties.getProperty("widgetsDir") + widgetName;
         // File path, for example: js/jquery/jquery-1.3.2.min.js
         String realFilePath =
             files[j].toString().substring(widgetPath.length() + 2);
@@ -276,9 +365,10 @@ public class Core {
   /**
    * Add present CSS/JS files to HEAD if they present.
    * @param widgetName widget Name that should be use.
-   * @return
+   * @throws FileNotFoundException if flow file not found.
    */
-  private void addHEADFiles(final String widgetName) {
+  private void addHEADFiles(final String widgetName)
+    throws FileNotFoundException {
     for (HeadFiles headFiles : HeadFiles.values()) {
       // Add JS/CSS-file to HEAD if it present
       String headComponentPath =
@@ -319,12 +409,14 @@ public class Core {
             } else {
               List<String> listComponentFiles = new ArrayList<String>();
               getFiles(new File(localPath), listComponentFiles, widgetName
-                  + this.properties.getProperty("widget" + headFiles + "Dir"));
+                  + this.properties.getProperty("widget" + headFiles
+                      + "Dir"));
+
               for (String file : listComponentFiles) {
                 String componentWebFileName =
                     widgetComponentPathWeb + "/" + file;
-                log.log(Level.INFO, "Found widget " + headFiles + " file: "
-                    + componentWebFileName);
+                log.log(Level.INFO, "Found widget " + headFiles
+                    + " file: " + componentWebFileName);
                 headFilesList.add(componentWebFileName);
               }
             }
@@ -338,10 +430,16 @@ public class Core {
           List<String> listComponentFiles = new ArrayList<String>();
           getFiles(new File(widgetComponentPathLocal), listComponentFiles,
               widgetName
-                  + this.properties.getProperty("widget" + headFiles + "Dir"));
+                  + this.properties.getProperty("widget" + headFiles
+                      + "Dir"));
+
+          if (this.buildType == BuildType.FLOW) {
+            this.addWidgetPosition(widgetName);
+          }
 
           for (String file : listComponentFiles) {
-            String componentWebFileName = widgetComponentPathWeb + "/" + file;
+            String componentWebFileName =
+                widgetComponentPathWeb + "/" + file;
             log.log(Level.INFO, "Found widget " + headFiles + " file: "
                 + componentWebFileName);
             headFilesList.add(componentWebFileName);
@@ -359,7 +457,8 @@ public class Core {
   private void addJSOnload(final File fileName) {
     List<String> onloadFunctionList = readFileToList(fileName.toString());
     for (String jsFunction : onloadFunctionList) {
-      String onloadBodyAttr = this.templateBODY.getAttributeValue("onload");
+      String onloadBodyAttr =
+          this.templateBODY.getAttributeValue("onload");
       String resultOnload = "";
       if (isPresent(onloadBodyAttr)) {
         resultOnload = onloadBodyAttr + jsFunction + "; ";
@@ -421,7 +520,9 @@ public class Core {
   /**
    * Logger instance.
    */
-  private final Logger log        = Logger.getLogger(getClass().toString());
+  private final Logger log        =
+                                      Logger.getLogger(getClass()
+                                          .toString());
 
   /**
    * Property instance.
@@ -446,7 +547,14 @@ public class Core {
   /**
    * HashMap of "id" => "widget".
    */
-  private HashMap<String, String> flowHash         = null;
+  private HashMap<String, String> flowHash         =
+                                                       new HashMap<String, String>();
+
+  /**
+   * HashMap of "widget" => "id".
+   */
+  private HashMap<String, String> flowHashReverse  =
+                                                       new HashMap<String, String>();
 
   /**
    * Name of template that should use to create DOM.
@@ -461,10 +569,32 @@ public class Core {
   /**
    * List of HEAD files.
    */
-  private List<String>            headFilesList    = new LinkedList<String>();
+  private List<String>            headFilesList    =
+                                                       new LinkedList<String>();
 
   /**
    * BODY element.
    */
   private Element                 templateBODY     = null;
+
+  /**
+   * Embedded CSS.
+   */
+  private Element                 embeddedCSS      = null;
+
+  /**
+   * Using build document type.
+   */
+  private enum BuildType {
+    /**
+     * "widget" if testing widget in stand-along mode. "flow" if build output
+     * from widgets.
+     */
+    WIDGET, FLOW
+  }
+
+  /**
+   * Using build document type.
+   */
+  private BuildType buildType = null;
 }
