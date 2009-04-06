@@ -1,3 +1,15 @@
+a:link {
+  color: #616161;
+}
+
+a:visited {
+  color: #aaa;
+}
+
+a {
+  text-decoration: none;
+}
+
 html, body {
   height: 100%;
   overflow: hidden;
@@ -5,4 +17,8 @@ html, body {
 
 body {
   font: 10pt Verdana, Arial, Tahoma, Sans serif;
+}
+
+.clear {
+  clear: both;
 }

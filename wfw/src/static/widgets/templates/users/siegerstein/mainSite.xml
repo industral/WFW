@@ -6,8 +6,9 @@
   </head>
   <body>
     <div id='logo' class='clear'/>
-    <div id='topMenu' class='clear'/>
-	<div id='search' class='clear'/>
+    <div id='topMenu' class='clear'>
+      <div id='search' class='clear'/>
+    </div>
     <div id='menu' class='clear'/>
     <div id='content' class='clear'/>
     <div id='bottom' class='clear'/>

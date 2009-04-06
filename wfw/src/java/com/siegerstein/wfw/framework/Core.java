@@ -198,6 +198,7 @@ public class Core {
       this.addHEADFiles(this.commonWidgetName);
     }
 
+    // TODO: Add recursive search.
     for (Element divObj : (List<Element>) (this.templateBODY.getChildren())) {
       // Ensure that it's ID tag
       if (divObj.getName().equals("div")) {
@@ -228,7 +229,7 @@ public class Core {
           // Add widget HEAD
           this.addHEADFiles(widgetName);
           // Add widget content
-          divObj.setContent(widgetDoc.getRootElement().cloneContent());
+          divObj.addContent(widgetDoc.getRootElement().cloneContent());
         }
       }
     }
@@ -400,7 +401,7 @@ public class Core {
       } else {
         styleElement.setAttribute("type", "text/javascript");
         styleElement.setAttribute("src", headFile);
-        styleElement.setText("&nbsp;"); // need to have close tag
+        styleElement.setText("1"); // need to have close tag
         jsList.add(styleElement);
       }
     }
