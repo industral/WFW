@@ -101,7 +101,7 @@
   <!-- START: topMenu -->
   <servlet>
     <servlet-name>topMenu</servlet-name>
-    <servlet-class>com.siegerstein.wfw.framework.widgets.ui.siegerstein.topMenu.TopMenu</servlet-class>
+    <servlet-class>com.siegerstein.wfw.framework.widgets.ui.users.siegerstein.topMenu.TopMenu</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -113,7 +113,7 @@
   <!-- START: topMenu -->
   <servlet>
     <servlet-name>Home</servlet-name>
-    <servlet-class>com.siegerstein.wfw.framework.widgets.ui.siegerstein.dev.home.Home</servlet-class>
+    <servlet-class>com.siegerstein.wfw.framework.widgets.ui.main.dev.home.Home</servlet-class>
   </servlet>
   
   <servlet-mapping>

@@ -51,9 +51,10 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 /**
- * Class for parsing flow xml-file and putting widgets in appropriate places.
+ * Class for parsing flow XML file and putting widgets in appropriate places.
  * @author Alex Ivasyuv
  */
+// TODO: make more separate methods.
 public class Core {
 
   // --------------------------------------------------------------------
@@ -187,7 +188,7 @@ public class Core {
     Element templateRoot = this.getTemplateRoot();
     List<Element> templateRootList = (List<Element>) templateRoot.getChildren();
     Element templateHEAD = templateRootList.get(0);
-    Element templateBODY = templateRootList.get(1);
+    this.templateBODY = templateRootList.get(1);
 
     // Add common widget files. Should be the first before users widgets
     this.addHEADFiles(this.properties.getProperty("commonWidgetName"));
@@ -197,7 +198,7 @@ public class Core {
       this.addHEADFiles(this.commonWidgetName);
     }
 
-    for (Element divObj : (List<Element>) (templateBODY.getChildren())) {
+    for (Element divObj : (List<Element>) (this.templateBODY.getChildren())) {
       // Ensure that it's ID tag
       if (divObj.getName().equals("div")) {
         String idName = divObj.getAttributeValue("id");
@@ -238,7 +239,7 @@ public class Core {
     XMLOutputter outp = new XMLOutputter(format);
     try {
       outp.output(templateHEAD, out);
-      outp.output(templateBODY, out);
+      outp.output(this.templateBODY, out);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -287,17 +288,20 @@ public class Core {
       String widgetComponentPathWeb =
           this.properties.getProperty("widgetsWebDir") + headComponentPath;
 
-      // var to check if present in folder order file
+      // variable to check if present in folder order file
       boolean order = false;
 
-      // Check if in folder present file .wfw-order
-      // We need to check if folder is exists, because css and js foder is
+      // Check if in folder present file ".wfw-order"
+      // We need to check if folder is exists, because CSS and JS folder is
       // optional
       if (new File(widgetComponentPathLocal).exists()) {
         File[] fileList = new File(widgetComponentPathLocal).listFiles();
         for (int i = 0; i < fileList.length; ++i) {
           if (fileList[i].getName().equals(".wfw-order")) {
             order = true;
+          }
+          if (fileList[i].getName().equals(".wfw-onload")) {
+            this.addJSOnload(fileList[i]);
           }
         }
       }
@@ -343,6 +347,25 @@ public class Core {
           }
         }
       }
+    }
+  }
+
+  /**
+   * Add onload function to BODY tag.
+   * @param fileName file where onload function(s) defined.
+   */
+  // TODO: function like shit, need to be rewrited!
+  private void addJSOnload(final File fileName) {
+    List<String> onloadFunctionList = readFileToList(fileName.toString());
+    for (String jsFunction : onloadFunctionList) {
+      String onloadBodyAttr = this.templateBODY.getAttributeValue("onload");
+      String resultOnload = "";
+      if (isPresent(onloadBodyAttr)) {
+        resultOnload = onloadBodyAttr + jsFunction + "; ";
+      } else {
+        resultOnload += jsFunction + "; ";
+      }
+      this.templateBODY.setAttribute("onload", resultOnload);
     }
   }
 
@@ -438,4 +461,9 @@ public class Core {
    * List of HEAD files.
    */
   private List<String>            headFilesList    = new LinkedList<String>();
+
+  /**
+   * BODY element.
+   */
+  private Element                 templateBODY     = null;
 }

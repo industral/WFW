@@ -23,4 +23,4 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-package com.siegerstein.wfw.framework.widgets.ui.siegerstein.topMenu;
+package com.siegerstein.wfw.framework.widgets.ui.users.siegerstein.topMenu;

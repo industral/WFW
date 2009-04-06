@@ -86,7 +86,6 @@ public class FileProxy extends HttpServlet {
     String pathToTemplate =
         properties.getProperty("commonTypesDir") + fileType.toString() + "/"
             + fileName;
-    System.out.println(pathToTemplate);
     return (readFileToString(pathToTemplate));
   }
 

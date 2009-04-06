@@ -2,21 +2,21 @@
   <!-- BEGIN Common framework flow's -->
   <flow name='devHome' template='main/Dev/devHome' commonWidget='users/siegerstein/common'>
     <widgets>
-      <widget id='header'>main/DevPages/home/header</widget>
-      <widget id='links'>main/DevPages/home/menu</widget>
-      <widget id='footer'>main/DevPages/footer</widget>
+      <widget id='header'>main/dev/home/header</widget>
+      <widget id='links'>main/dev/home/menu</widget>
+      <widget id='footer'>main/dev/footer</widget>
     </widgets>
   </flow>
   
   <flow name='WidgetTestPage' template='main/Dev/TestTemplates/Widget'>
     <widgets>
-      <widget id='menu'>main/DevPages/TestPages/Widget/menu</widget>
+      <widget id='menu'>main/dev/TestPages/Widget/menu</widget>
     </widgets>
   </flow>
   
   <flow name='FlowCreationPage' template='main/Dev/TestTemplates/FlowCreation'>
     <widgets>
-      <widget id='menu'>main/DevPages/TestPages/FlowCreation/menu</widget>
+      <widget id='menu'>main/dev/TestPages/FlowCreation/menu</widget>
     </widgets>
   </flow>
   <!-- END Common framework flow's -->

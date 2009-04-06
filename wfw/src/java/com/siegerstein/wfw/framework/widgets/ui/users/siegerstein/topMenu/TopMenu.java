@@ -23,7 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-package com.siegerstein.wfw.framework.widgets.ui.siegerstein.home;
+package com.siegerstein.wfw.framework.widgets.ui.users.siegerstein.topMenu;
 
 import static com.siegerstein.wfw.framework.util.Util.yaml2json;
 
@@ -35,10 +35,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Home page widget Servlet. Return appropriate data in JSON format.
+ * TopMenu widget Servlet. Return appropriate data in JSON format.
  */
-
-public class Home extends HttpServlet {
+public class TopMenu extends HttpServlet {
 
   // --------------------------------------------------------------------
   // Public methods
@@ -46,12 +45,11 @@ public class Home extends HttpServlet {
 
   /**
    * Main servlet method.
-   * @param request - servlet request.
-   * @param response - servlet request.
+   * @param request servlet request.
+   * @param response servlet request.
    * @throws ServletException in servlet error.
    * @throws IOException in other case error.
    */
-
   public final void service(final HttpServletRequest request,
       final HttpServletResponse response) throws ServletException, IOException {
 
@@ -68,6 +66,6 @@ public class Home extends HttpServlet {
   /**
    * UUID.
    */
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = -8946117878773312370L;
 
 }
