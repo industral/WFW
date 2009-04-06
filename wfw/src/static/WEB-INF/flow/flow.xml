@@ -23,12 +23,12 @@
   
   <flow name='flow_1' template='users/siegerstein/mainSite' commonWidget='users/siegerstein/common'>
     <widgets>
-      <widget id='logo'>users/siegerstein/logo</widget>
-      <widget id='topMenu'>users/siegerstein/topMenu</widget>
-      <widget id='search' position='relative' x='50px' y='100px'>users/siegerstein/search</widget>
-      <!-- <widget id='menu'>users/siegerstein/menu</widget> -->
-      <widget id='content'>users/siegerstein/content</widget>
-      <!-- <widget id='bottom'>users/siegerstein/bottom</widget> -->
+      <widget id='logo' position='relative' left='300px' top='65px'>users/siegerstein/logo</widget>
+      <widget id='topMenu' position='relative' left='445px'>users/siegerstein/topMenu</widget>
+      <widget id='search' position='relative' left='1097px' top='-29px'>users/siegerstein/search</widget>
+      <widget id='menu' position='absolute' left='100px' top='325px'>users/siegerstein/menu</widget>
+      <widget id='content' position='relative' left='443px'>users/siegerstein/content</widget>
+      <widget id='bottom' position='absolute' right='10px' bottom='10px'>users/siegerstein/bottom</widget>
     </widgets>
   </flow>
 </flows>

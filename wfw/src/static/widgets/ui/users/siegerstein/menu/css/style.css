@@ -1,0 +1,5 @@
+#menuContainer {
+  background: url('@WIDGET_PATH@/img/menu_bg.png') no-repeat;
+  width: 316px;
+  height: 557px;
+}

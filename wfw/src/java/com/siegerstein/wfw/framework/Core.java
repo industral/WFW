@@ -195,16 +195,26 @@ public class Core {
           .getChildren("widget")) {
         if (widgetObj.getValue().trim().equals(widgetName)) {
           String positionVal = widgetObj.getAttributeValue("position");
-          String xVal = widgetObj.getAttributeValue("x");
-          String yVal = widgetObj.getAttributeValue("y");
+
+          String rightVal = widgetObj.getAttributeValue("right");
+          String leftVal = widgetObj.getAttributeValue("left");
+          String topVal = widgetObj.getAttributeValue("top");
+          String bottomVal = widgetObj.getAttributeValue("bottom");
+
           if (isPresent(positionVal)) {
             cssCollection.add("position: " + positionVal);
           }
-          if (isPresent(xVal)) {
-            cssCollection.add("left: " + xVal);
+          if (isPresent(rightVal)) {
+            cssCollection.add("right: " + rightVal);
           }
-          if (isPresent(yVal)) {
-            cssCollection.add("top: " + yVal);
+          if (isPresent(leftVal)) {
+            cssCollection.add("left: " + leftVal);
+          }
+          if (isPresent(topVal)) {
+            cssCollection.add("top: " + topVal);
+          }
+          if (isPresent(bottomVal)) {
+            cssCollection.add("bottom: " + bottomVal);
           }
         }
       }
@@ -228,10 +238,10 @@ public class Core {
         + " {");
 
     for (String cssStyle : cssList) {
-      this.embeddedCSS.addContent(cssStyle + "; \r\n");
+      this.embeddedCSS.addContent(cssStyle + "; ");
     }
 
-    this.embeddedCSS.addContent(" }");
+    this.embeddedCSS.addContent("} ");
   }
 
   /**
@@ -369,6 +379,13 @@ public class Core {
    */
   private void addHEADFiles(final String widgetName)
     throws FileNotFoundException {
+
+    // add embedded CSS style if it present in flow
+    if (this.buildType == BuildType.FLOW) {
+      this.addWidgetPosition(widgetName);
+    }
+
+    // for all CSS/JS folders
     for (HeadFiles headFiles : HeadFiles.values()) {
       // Add JS/CSS-file to HEAD if it present
       String headComponentPath =
@@ -396,7 +413,6 @@ public class Core {
           }
         }
       }
-
       // if order file present follow him
       if (order) {
         List<String> list =
@@ -432,10 +448,6 @@ public class Core {
               widgetName
                   + this.properties.getProperty("widget" + headFiles
                       + "Dir"));
-
-          if (this.buildType == BuildType.FLOW) {
-            this.addWidgetPosition(widgetName);
-          }
 
           for (String file : listComponentFiles) {
             String componentWebFileName =

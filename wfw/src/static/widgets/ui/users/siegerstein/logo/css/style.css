@@ -1,7 +1,3 @@
-#logo {
-  float: left;
-}
-
 #textLogo {
   background: url('@WIDGET_PATH@/img/logo.png');
   width: 1032px;

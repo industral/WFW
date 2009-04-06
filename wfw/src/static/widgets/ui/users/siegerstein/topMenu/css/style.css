@@ -1,11 +1,7 @@
-#topMenu {
-}
-
 #topMenuDiv {
   background: url('@WIDGET_PATH@/img/menu_bg.png') no-repeat;
   width: 766px;
   height: 30px;
-
 }
 
 #topMenuDiv ul li {
@@ -15,4 +11,8 @@
   font: bold normal 11pt Verdana, Arial, Tahoma, Sans serif;
   margin: 7px 0 0;
   padding: 0 4px 0 10px;
+}
+
+#topMenuDiv ul li:first-child {
+  background: none;
 }
