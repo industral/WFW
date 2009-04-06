@@ -41,7 +41,7 @@
   <!-- START: Widget Test Page -->
   <servlet>
     <servlet-name>WidgetTestPage</servlet-name>
-    <servlet-class>com.siegerstein.wfw.framework.servlets.WidgetTestPage</servlet-class>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.Widgets</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -65,7 +65,7 @@
   <!-- START: Load Widget -->
   <servlet>
     <servlet-name>WidgetTest</servlet-name>
-    <servlet-class>com.siegerstein.wfw.framework.servlets.WidgetTest</servlet-class>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.WidgetTestPage</servlet-class>
   </servlet>
   
   <servlet-mapping>

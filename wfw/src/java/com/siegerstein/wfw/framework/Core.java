@@ -1,27 +1,27 @@
-/*********************************************************************************
- * Copyright (c) 2009, Alex Y. Ivasyuv                                           *
- * All rights reserved.                                                          *
- *                                                                               *
- * Redistribution and use in source and binary forms, with or without            *
- * modification, are permitted provided that the following conditions are met:   *
- *                                                                               *
- * 1. Redistributions of source code must retain the above copyright             *
- *    notice, this list of conditions and the following disclaimer.              *
- * 2. Redistributions in binary form must reproduce the above copyright          *
- *    notice, this list of conditions and the following disclaimer in the        *
- *    documentation and/or other materials provided with the distribution.       *
- *                                                                               *
- * THIS SOFTWARE IS PROVIDED BY Alex Y. Ivasyuv ''AS IS'' AND ANY                *
- * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED     *
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE        *
- * DISCLAIMED. IN NO EVENT SHALL Alex Y. Ivasyuv BE LIABLE FOR ANY               *
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES    *
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;  *
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND   *
- * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT    *
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS *
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                  *
- ********************************************************************************/
+/*******************************************************************************
+ * Copyright (c) 2009, Alex Ivasyuv                                            *
+ * All rights reserved.                                                        *
+ *                                                                             *
+ * Redistribution and use in source and binary forms, with or without          *
+ * modification, are permitted provided that the following conditions are met: *
+ *                                                                             *
+ * 1. Redistributions of source code must retain the above copyright           *
+ *    notice, this list of conditions and the following disclaimer.            *
+ * 2. Redistributions in binary form must reproduce the above copyright        *
+ *    notice, this list of conditions and the following disclaimer in the      *
+ *    documentation and/or other materials provided with the distribution.     *
+ *                                                                             *
+ * THIS SOFTWARE IS PROVIDED BY Alex Y. Ivasyuv ''AS IS'' AND ANY              *
+ * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED   *
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE      *
+ * DISCLAIMED. IN NO EVENT SHALL Alex Y. Ivasyuv BE LIABLE FOR ANY             *
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  *
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;*
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND *
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  *
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF    *
+ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
+ ******************************************************************************/
 
 package com.siegerstein.wfw.framework;
 
@@ -52,10 +52,9 @@ import org.jdom.output.XMLOutputter;
 
 /**
  * Class for parsing flow xml-file and putting widgets in appropriate places.
- * 
- * @author Alex Y. Ivasyuv.
+ * @author Alex Ivasyuv
  */
-public class FlowCollectionParser {
+public class Core {
 
   // --------------------------------------------------------------------
   // Public methods
@@ -63,19 +62,17 @@ public class FlowCollectionParser {
 
   /**
    * Constructor.
-   * 
    * @param writer JSP writer to provide XHTML outputting document.
    */
-  public FlowCollectionParser(final PrintWriter writer) {
-    logger.log(Level.INFO, "In Constructor");
+  public Core(final PrintWriter writer) {
+    log.log(Level.INFO, "In Constructor");
     this.out = writer;
   }
 
   /**
    * Initialized method to became parsing files and create XML output.
-   * 
    * @param flowId Flow name.
-   * @throws FileNotFoundException
+   * @throws FileNotFoundException when some thing is missing in flow.
    */
   public final void process(final String flowId) throws FileNotFoundException {
     this.createFlowHashMap(flowId);
@@ -84,19 +81,18 @@ public class FlowCollectionParser {
 
   /**
    * Test widget in Test Widget Page.
-   * 
    * @param widgetName widget name.
-   * @param commonWidget common widget.
-   * @throws FileNotFoundException
+   * @param aCommonWidgetName common widget.
+   * @throws FileNotFoundException when some thing is missing in flow.
    */
   public final void testWidget(final String widgetName,
-      final String commonWidgetName) throws FileNotFoundException {
+      final String aCommonWidgetName) throws FileNotFoundException {
     this.flowTemplate = this.properties.getProperty("testTemplate");
 
-    this.commonWidgetName = commonWidgetName;
+    this.commonWidgetName = aCommonWidgetName;
 
     // Create flow hashMap ("testContent" => "widgetName")
-    this.flowHash = new HashMap < String, String >();
+    this.flowHash = new HashMap<String, String>();
     flowHash.put("testContent", widgetName);
 
     this.outputBuilder();
@@ -108,17 +104,17 @@ public class FlowCollectionParser {
 
   /**
    * Parsing flow file.
-   * 
    * @return {@link Element} of main flow data-file.
-   * @throws FileNotFoundException
+   * @throws FileNotFoundException when flow file not found.
    */
   private Element parseFlow() throws FileNotFoundException {
     SAXBuilder builder = new SAXBuilder();
 
     Document doc = null;
     try {
-      doc = builder.build(new FileInputStream(this.properties
-          .getProperty("flowPath")));
+      doc =
+          builder.build(new FileInputStream(this.properties
+              .getProperty("flowPath")));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
       throw new FileNotFoundException("Flow file not found");
@@ -132,22 +128,22 @@ public class FlowCollectionParser {
 
   /**
    * Create hashMap with "id" => "widgetName".
-   * 
    * @param flowId flow name.
-   * @return {@link HashMap}.
-   * @throws FileNotFoundException
+   * @throws FileNotFoundException when flow file not found.
    */
-  private void createFlowHashMap(String flowId) throws FileNotFoundException {
+  @SuppressWarnings("unchecked")
+  private void createFlowHashMap(final String flowId)
+      throws FileNotFoundException {
     // Create flow hashMap ("id" => "widgetName")
-    this.flowHash = new HashMap < String, String >();
+    this.flowHash = new HashMap<String, String>();
 
     // Find flow with flowId name
-    for (Element obj : (List < Element >) this.parseFlow().getChildren("flow")) {
+    for (Element obj : (List<Element>) this.parseFlow().getChildren("flow")) {
       if ((obj.getAttributeValue("name").equals(flowId))) {
         this.flowTemplate = obj.getAttributeValue("template");
         this.commonWidgetName = obj.getAttributeValue("commonWidget");
         // If flow found, run in cycle and populate hash
-        for (Element widgetObj : (List < Element >) obj.getChild("widgets")
+        for (Element widgetObj : (List<Element>) obj.getChild("widgets")
             .getChildren("widget")) {
           // Populate hash with "id" => "widgetName"
           this.flowHash.put(widgetObj.getAttributeValue("id"), widgetObj
@@ -159,18 +155,18 @@ public class FlowCollectionParser {
 
   /**
    * Parse template file.
-   * 
    * @return {@link Element} of template root.
-   * @throws FileNotFoundException
+   * @throws FileNotFoundException when template file not found.
    */
   private Element getTemplateRoot() throws FileNotFoundException {
     // Start builder for template.
     SAXBuilder templateBuilder = new SAXBuilder();
     Document docTemplate = null;
     try {
-      docTemplate = templateBuilder.build(new FileInputStream(this.properties
-          .getProperty("templateDir")
-          + this.flowTemplate + ".xml"));
+      docTemplate =
+          templateBuilder.build(new FileInputStream(this.properties
+              .getProperty("templateDir")
+              + this.flowTemplate + ".xml"));
     } catch (FileNotFoundException e) {
       e.printStackTrace();
       throw new FileNotFoundException("Template file not found");
@@ -184,13 +180,12 @@ public class FlowCollectionParser {
 
   /**
    * Create XML output document from widgets.
-   * 
-   * @throws FileNotFoundException
+   * @throws FileNotFoundException when some thing is missing in flow.
    */
+  @SuppressWarnings("unchecked")
   private void outputBuilder() throws FileNotFoundException {
     Element templateRoot = this.getTemplateRoot();
-    List < Element > templateRootList = (List < Element >) templateRoot
-        .getChildren();
+    List<Element> templateRootList = (List<Element>) templateRoot.getChildren();
     Element templateHEAD = templateRootList.get(0);
     Element templateBODY = templateRootList.get(1);
 
@@ -202,7 +197,7 @@ public class FlowCollectionParser {
       this.addHEADFiles(this.commonWidgetName);
     }
 
-    for (Element divObj : (List < Element >) (templateBODY.getChildren())) {
+    for (Element divObj : (List<Element>) (templateBODY.getChildren())) {
       // Ensure that it's ID tag
       if (divObj.getName().equals("div")) {
         String idName = divObj.getAttributeValue("id");
@@ -210,17 +205,19 @@ public class FlowCollectionParser {
           Document widgetDoc = null;
 
           String widgetName = this.flowHash.get(idName);
-          String widgetPath = this.properties.getProperty("widgetsDir")
-              + widgetName + "/";
+          String widgetPath =
+              this.properties.getProperty("widgetsDir") + widgetName + "/";
 
           try {
-            widgetDoc = new SAXBuilder().build(new FileInputStream(widgetPath
-                + this.properties.getProperty("widgetXMLDir") + "/"
-                + this.properties.getProperty("widgetXMLFile")));
+            widgetDoc =
+                new SAXBuilder().build(new FileInputStream(widgetPath
+                    + this.properties.getProperty("widgetXMLDir") + "/"
+                    + this.properties.getProperty("widgetXMLFile")));
           } catch (FileNotFoundException e) {
             e.printStackTrace();
-            throw new FileNotFoundException(
-                "One of widget can't be found. Ensure that you defined right file names in 'flow/flow.xml'");
+            throw new FileNotFoundException("One of widget can't be found."
+                + "Ensure that you defined right file names"
+                + "in 'flow/flow.xml'");
           } catch (JDOMException e) {
             e.printStackTrace();
           } catch (IOException e) {
@@ -249,12 +246,12 @@ public class FlowCollectionParser {
 
   /**
    * Populate {@link List} with files that present in widgets (CSS/JS).
-   * 
    * @param folder Path to folder that should be scanned.
-   * @param collection to array where {@link File} should be accumulate.
+   * @param list {@link List} which should be populate with data.
+   * @param widgetName widget name which files should be found.
    */
-  private void getFiles(final File folder, final List < String > list,
-      String widgetName) {
+  private void getFiles(final File folder, final List<String> list,
+      final String widgetName) {
     File[] files = folder.listFiles();
     for (int j = 0; j < files.length; ++j) {
       if (files[j].isFile()
@@ -264,8 +261,8 @@ public class FlowCollectionParser {
         // Widget path, for example: ../webapps/ROOT/widgets/ui/siegerstein/logo
         String widgetPath = properties.getProperty("widgetsDir") + widgetName;
         // File path, for example: js/jquery/jquery-1.3.2.min.js
-        String realFilePath = files[j].toString().substring(
-            widgetPath.length() + 2);
+        String realFilePath =
+            files[j].toString().substring(widgetPath.length() + 2);
         list.add(realFilePath);
       }
       if (files[j].isDirectory()) {
@@ -276,21 +273,19 @@ public class FlowCollectionParser {
 
   /**
    * Add present CSS/JS files to HEAD if they present.
-   * 
    * @param widgetName widget Name that should be use.
    * @return
    */
   private void addHEADFiles(final String widgetName) {
     for (HeadFiles headFiles : HeadFiles.values()) {
       // Add JS/CSS-file to HEAD if it present
-      String headComponentPath = widgetName + "/"
-          + this.properties.getProperty("widget" + headFiles + "Dir");
-      String widgetComponentPathLocal = this.properties
-          .getProperty("widgetsDir")
-          + headComponentPath;
-      String widgetComponentPathWeb = this.properties
-          .getProperty("widgetsWebDir")
-          + headComponentPath;
+      String headComponentPath =
+          widgetName + "/"
+              + this.properties.getProperty("widget" + headFiles + "Dir");
+      String widgetComponentPathLocal =
+          this.properties.getProperty("widgetsDir") + headComponentPath;
+      String widgetComponentPathWeb =
+          this.properties.getProperty("widgetsWebDir") + headComponentPath;
 
       // var to check if present in folder order file
       boolean order = false;
@@ -309,21 +304,21 @@ public class FlowCollectionParser {
 
       // if order file present follow him
       if (order) {
-        List < String > list = readFileToList(widgetComponentPathLocal + "/"
-            + ".wfw-order");
+        List<String> list =
+            readFileToList(widgetComponentPathLocal + "/" + ".wfw-order");
         for (String s : list) {
           if (!s.trim().isEmpty()) {
             String localPath = widgetComponentPathLocal + "/" + s;
             if (new File(localPath).isFile()) {
               headFilesList.add(widgetComponentPathWeb + "/" + s);
             } else {
-              List < String > listComponentFiles = new ArrayList < String >();
+              List<String> listComponentFiles = new ArrayList<String>();
               getFiles(new File(localPath), listComponentFiles, widgetName
                   + this.properties.getProperty("widget" + headFiles + "Dir"));
               for (String file : listComponentFiles) {
-                String componentWebFileName = widgetComponentPathWeb + "/"
-                    + file;
-                logger.log(Level.INFO, "Found widget " + headFiles + " file: "
+                String componentWebFileName =
+                    widgetComponentPathWeb + "/" + file;
+                log.log(Level.INFO, "Found widget " + headFiles + " file: "
                     + componentWebFileName);
                 headFilesList.add(componentWebFileName);
               }
@@ -335,14 +330,14 @@ public class FlowCollectionParser {
       // if no order file just run recursive across all folders inside
       if (!order) {
         if (new File(widgetComponentPathLocal).exists()) {
-          List < String > listComponentFiles = new ArrayList < String >();
+          List<String> listComponentFiles = new ArrayList<String>();
           getFiles(new File(widgetComponentPathLocal), listComponentFiles,
               widgetName
                   + this.properties.getProperty("widget" + headFiles + "Dir"));
 
           for (String file : listComponentFiles) {
             String componentWebFileName = widgetComponentPathWeb + "/" + file;
-            logger.log(Level.INFO, "Found widget " + headFiles + " file: "
+            log.log(Level.INFO, "Found widget " + headFiles + " file: "
                 + componentWebFileName);
             headFilesList.add(componentWebFileName);
           }
@@ -351,12 +346,16 @@ public class FlowCollectionParser {
     }
   }
 
-  private void createHeadElements(Element head) {
+  /**
+   * Create HEAD elements and add them to HEAD.
+   * @param headElement HEAD element in which will be populate with elements.
+   */
+  private void createHeadElements(final Element headElement) {
     // remove from list all ignored files
     this.headFilesList.removeAll(getIgnoredFiles());
 
-    List < Element > cssList = new LinkedList < Element >();
-    List < Element > jsList = new LinkedList < Element >();
+    List<Element> cssList = new LinkedList<Element>();
+    List<Element> jsList = new LinkedList<Element>();
 
     for (String headFile : this.headFilesList) {
       String elementType = null;
@@ -384,50 +383,59 @@ public class FlowCollectionParser {
     }
 
     for (Element el : cssList) {
-      head.addContent(el);
+      headElement.addContent(el);
     }
     for (Element el : jsList) {
-      head.addContent(el);
+      headElement.addContent(el);
     }
   }
 
   // --------------------------------------------------------------------
   // Private variables
   // --------------------------------------------------------------------
-  private static final Logger logger     = Logger
-                                             .getLogger(FlowCollectionParser.class
-                                                 .toString());
+
+  /**
+   * Logger instance.
+   */
+  private final Logger log        = Logger.getLogger(getClass().toString());
+
   /**
    * Property instance.
    */
-  private Properties          properties = readPropertieFile();
+  private Properties   properties = readPropertieFile();
 
   /**
    * Output writer to JSP page.
    */
-  private PrintWriter         out        = null;
+  private PrintWriter  out        = null;
 
   /**
    * HEAD tag files that should be included automatically if they present.
    */
   private enum HeadFiles {
+    /**
+     * CSS, JS.
+     */
     CSS, JS;
   };
 
   /**
    * HashMap of "id" => "widget".
    */
-  private HashMap < String, String > flowHash         = null;
+  private HashMap<String, String> flowHash         = null;
 
   /**
    * Name of template that should use to create DOM.
    */
-  private String                     flowTemplate     = null;
+  private String                  flowTemplate     = null;
 
   /**
    * Name of common widget that should include if it present.
    */
-  private String                     commonWidgetName = null;
+  private String                  commonWidgetName = null;
 
-  private List < String >            headFilesList    = new LinkedList < String >();
+  /**
+   * List of HEAD files.
+   */
+  private List<String>            headFilesList    = new LinkedList<String>();
 }
