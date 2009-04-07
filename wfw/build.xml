@@ -14,11 +14,13 @@
 
   <property name='src.dir' value='src' />
   <property name='src.java.dir' value='${src.dir}/java' />
+  <property name='src.java.applets' value='${src.java.dir}/com/siegerstein/wfw/framework/applets' />
   <property name='static.dir' value='${src.dir}/static' />
 
   <property name='web.root.dir' value='${CATALINA_HOME}/webapps/ROOT' />
   <property name='web.webinf.dir' value='${web.root.dir}/WEB-INF' />
   <property name='web.classes.dir' value='${web.webinf.dir}/classes' />
+  <property name='web.applets.dir' value='${web.root.dir}/applets' />
   <property name='web.lib.dir' value='${web.webinf.dir}/lib' />
 
   <target name='all' description='Build all project' depends='clean, build'>
@@ -27,6 +29,7 @@
   <target name="init">
     <echo>Initizlized...</echo>
     <mkdir dir='${web.root.dir}' />
+    <mkdir dir='${web.root.dir}/applets' />
     <mkdir dir='${web.classes.dir}' />
     <mkdir dir='${web.lib.dir}' />
   </target>
@@ -72,10 +75,16 @@
       </fileset>
     </copy>
 
-    <javac debug="on" destdir="${web.classes.dir}">
+    <!-- Compile java code -->
+    <javac debug="on" destdir="${web.classes.dir}" excludes="com/siegerstein/wfw/framework/applets/**">
       <src path="${src.java.dir}" />
       <classpath refid="project.class.path" />
       <compilerarg value="${compile.flags}" />
+    </javac>
+
+    <!-- Compile applets -->
+    <javac debug="on" destdir='${web.applets.dir}'>
+      <src path="${src.java.applets}" />
     </javac>
 
     <antcall target="makeCommonJar" />

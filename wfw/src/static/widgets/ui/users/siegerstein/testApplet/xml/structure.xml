@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<ROOT>
+  <applet codebase="/applets/" code="com/siegerstein/wfw/framework/applets/HelloWorldApplet.class" width="150" height="150"></applet>
+</ROOT>

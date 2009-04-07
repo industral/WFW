@@ -32,6 +32,7 @@
       <widget id='menu' position='absolute' left='100px' top='325px'>users/siegerstein/menu</widget>
       <widget id='content' position='relative' left='443px'>users/siegerstein/content</widget>
       <widget id='bottom' position='absolute' right='10px' bottom='10px'>users/siegerstein/bottom</widget>
+      <widget id='applet' position='absolute' left='100px' top='100px'>users/siegerstein/testApplet</widget>
     </widgets>
   </flow>
   <!-- End users flow's -->

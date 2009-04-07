@@ -4,6 +4,6 @@
 
 - Change info.xml => .wfw-info.xml
 - ant skip it
-- logo add JS effect.
+- logo add JS effect. Need to change algorithm.
 
 - add applet support
