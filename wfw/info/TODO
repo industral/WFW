@@ -1,3 +1,9 @@
 - Add Flows Page (flows paths)
 
 - Found the way <script></script>
+
+- Change info.xml => .wfw-info.xml
+- ant skip it
+- logo add JS effect.
+
+- add applet support

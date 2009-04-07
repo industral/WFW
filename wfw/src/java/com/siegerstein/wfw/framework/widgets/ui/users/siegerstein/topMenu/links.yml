@@ -8,6 +8,9 @@
   name: Products
   url:  javascript:Content("products")
 -
+  name: Projects
+  url:  javascript:Content("projects")
+-
   name: Blog
   url:  /blog
 -
