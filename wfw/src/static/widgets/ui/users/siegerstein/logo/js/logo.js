@@ -1,5 +1,5 @@
 function logoEffect(){
-  var k = 1000;
+  var k = 100;
   var randVal = Math.random() * k;
   
   setTimeout(function(){

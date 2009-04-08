@@ -11,11 +11,11 @@
  *    notice, this list of conditions and the following disclaimer in the      *
  *    documentation and/or other materials provided with the distribution.     *
  *                                                                             *
- * THIS SOFTWARE IS PROVIDED BY Alex Y. Ivasyuv ''AS IS'' AND ANY              *
+ * THIS SOFTWARE IS PROVIDED BY Alex Ivasyuv ''AS IS'' AND ANY                 *
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED   *
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE      *
- * DISCLAIMED. IN NO EVENT SHALL Alex Y. Ivasyuv BE LIABLE FOR ANY             *
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  *
+ * DISCLAIMED. IN NO EVENT SHALL Alex Ivasyuv BE LIABLE FOR ANY DIRECT,        *
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES          *
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;*
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND *
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  *
@@ -53,8 +53,8 @@ public final class ReplaceConstants {
    */
   public static void main(final String[] args) throws IOException {
     ReplaceConstants replaceConstants = new ReplaceConstants();
-    List<File> filesList = new LinkedList<File>();
-    List<String> listComponentFiles = new ArrayList<String>();
+    List < File > filesList = new LinkedList < File >();
+    List < String > listComponentFiles = new ArrayList < String >();
     replaceConstants.getFiles(new File(replaceConstants.properties
         .getProperty("CATALINA_HOME")
         + "/webapps/ROOT"
@@ -79,8 +79,8 @@ public final class ReplaceConstants {
    * @param list accumulate collection of files.
    * @param filesList accumulate collection of files.
    */
-  private void getFiles(final File folder, final List<String> list,
-      final List<File> filesList) {
+  private void getFiles(final File folder, final List < String > list,
+      final List < File > filesList) {
     File[] files = folder.listFiles();
 
     for (int j = 0; j < files.length; ++j) {
@@ -95,10 +95,9 @@ public final class ReplaceConstants {
         // Check if in folder present css-file
         if (files[j].listFiles().length != 0) {
 
-          String fileName =
-              files[j].getParent().toString().substring(
-                  (properties.getProperty("CATALINA_HOME") + "/webapps/ROOT")
-                      .length());
+          String fileName = files[j].getParent().toString().substring(
+              (properties.getProperty("CATALINA_HOME") + "/webapps/ROOT")
+                  .length());
 
           list.add(fileName);
         }
@@ -116,8 +115,8 @@ public final class ReplaceConstants {
    * @return widget path.
    */
   private String getWidgetPath(final File fileName) {
-    String widgetPath =
-        fileName.getParentFile().getParentFile().toString().substring(
+    String widgetPath = fileName.getParentFile().getParentFile().toString()
+        .substring(
             (properties.getProperty("CATALINA_HOME") + "/webapps/ROOT")
                 .length());
     return (widgetPath);
@@ -128,11 +127,12 @@ public final class ReplaceConstants {
    * @param fileList list with files that should be scanning for replacing.
    * @throws IOException if error occur.
    */
-  private void replaceConstants(final List<File> fileList) throws IOException {
+  private void replaceConstants(final List < File > fileList)
+      throws IOException {
     for (File file : fileList) {
       String fileInString = readFileToString(file.toString());
-      BufferedWriter writer =
-          new BufferedWriter(new FileWriter(file.toString()));
+      BufferedWriter writer = new BufferedWriter(
+          new FileWriter(file.toString()));
       writer.write(fileInString.replace("@WIDGET_PATH@", getWidgetPath(file)));
       writer.flush();
       writer.close();

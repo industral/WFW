@@ -11,11 +11,11 @@
  *    notice, this list of conditions and the following disclaimer in the      *
  *    documentation and/or other materials provided with the distribution.     *
  *                                                                             *
- * THIS SOFTWARE IS PROVIDED BY Alex Y. Ivasyuv ''AS IS'' AND ANY              *
+ * THIS SOFTWARE IS PROVIDED BY Alex Ivasyuv ''AS IS'' AND ANY                 *
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED   *
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE      *
- * DISCLAIMED. IN NO EVENT SHALL Alex Y. Ivasyuv BE LIABLE FOR ANY             *
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  *
+ * DISCLAIMED. IN NO EVENT SHALL Alex Ivasyuv BE LIABLE FOR ANY DIRECT,        *
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES          *
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;*
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND *
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  *
@@ -69,9 +69,8 @@ public class XML2JSON extends HttpServlet {
   @SuppressWarnings("unchecked")
   public final void service(final HttpServletRequest request,
       final HttpServletResponse response) throws ServletException, IOException {
-    PrintWriter writer =
-        new PrintWriter(new OutputStreamWriter(response.getOutputStream(),
-            "utf-8"));
+    PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
+        .getOutputStream(), "utf-8"));
 
     response.setContentType("application/json; charset=utf-8");
     response.setCharacterEncoding("utf-8");
@@ -84,10 +83,9 @@ public class XML2JSON extends HttpServlet {
 
       Document doc = null;
       try {
-        doc =
-            builder.build(new FileInputStream(this.properties
-                .getProperty("widgetsDir")
-                + fileName + "/" + properties.getProperty("XMLINFOFile")));
+        doc = builder.build(new FileInputStream(this.properties
+            .getProperty("widgetsDir")
+            + fileName + "/" + properties.getProperty("XMLINFOFile")));
       } catch (FileNotFoundException e) {
         e.printStackTrace();
         throw new FileNotFoundException("Flow file not found");
@@ -97,9 +95,9 @@ public class XML2JSON extends HttpServlet {
         e.printStackTrace();
       }
 
-      HashMap<String, String> hm = new HashMap<String, String>();
+      HashMap < String, String > hm = new HashMap < String, String >();
 
-      for (Element el : (List<Element>) doc.getRootElement().getChildren()) {
+      for (Element el : (List < Element >) doc.getRootElement().getChildren()) {
         hm.put(el.getName(), el.getValue());
       }
       writer.print(new Gson().toJson(hm));

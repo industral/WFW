@@ -11,11 +11,11 @@
  *    notice, this list of conditions and the following disclaimer in the      *
  *    documentation and/or other materials provided with the distribution.     *
  *                                                                             *
- * THIS SOFTWARE IS PROVIDED BY Alex Y. Ivasyuv ''AS IS'' AND ANY              *
+ * THIS SOFTWARE IS PROVIDED BY Alex Ivasyuv ''AS IS'' AND ANY                 *
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED   *
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE      *
- * DISCLAIMED. IN NO EVENT SHALL Alex Y. Ivasyuv BE LIABLE FOR ANY             *
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  *
+ * DISCLAIMED. IN NO EVENT SHALL Alex Ivasyuv BE LIABLE FOR ANY DIRECT,        *
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES          *
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;*
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND *
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  *
@@ -60,14 +60,13 @@ public class FlowCreationPage extends HttpServlet {
    */
   public final void service(final HttpServletRequest request,
       final HttpServletResponse response) throws ServletException, IOException {
-    PrintWriter writer =
-        new PrintWriter(new OutputStreamWriter(response.getOutputStream(),
-            "utf-8"));
+    PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
+        .getOutputStream(), "utf-8"));
 
     response.setContentType("application/json; charset=utf-8");
     response.setCharacterEncoding("utf-8");
 
-    HashSet<String> listOfTemplates = new HashSet<String>();
+    HashSet < String > listOfTemplates = new HashSet < String >();
 
     getTemplates(new File(properties.getProperty("templateDir")),
         listOfTemplates);
@@ -86,14 +85,13 @@ public class FlowCreationPage extends HttpServlet {
    * @param folder folder where should be templates files search.
    * @param list collection that should be populate.
    */
-  private void getTemplates(final File folder, final HashSet<String> list) {
+  private void getTemplates(final File folder, final HashSet < String > list) {
     File[] files = folder.listFiles();
     for (int j = 0; j < files.length; ++j) {
       // add all .xml files
       if (files[j].getName().contains(".xml") && files[j].isFile()) {
-        String templateFile =
-            files[j].toString().substring(
-                properties.getProperty("templateDir").length());
+        String templateFile = files[j].toString().substring(
+            properties.getProperty("templateDir").length());
         // Skip main folder
         if (!templateFile.startsWith("main/")) {
           list.add(templateFile);

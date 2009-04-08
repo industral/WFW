@@ -11,11 +11,11 @@
  *    notice, this list of conditions and the following disclaimer in the      *
  *    documentation and/or other materials provided with the distribution.     *
  *                                                                             *
- * THIS SOFTWARE IS PROVIDED BY Alex Y. Ivasyuv ''AS IS'' AND ANY              *
+ * THIS SOFTWARE IS PROVIDED BY Alex Ivasyuv ''AS IS'' AND ANY                 *
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED   *
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE      *
- * DISCLAIMED. IN NO EVENT SHALL Alex Y. Ivasyuv BE LIABLE FOR ANY             *
- * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES  *
+ * DISCLAIMED. IN NO EVENT SHALL Alex Ivasyuv BE LIABLE FOR ANY DIRECT,        *
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES          *
  * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;*
  * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND *
  * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  *
@@ -60,21 +60,20 @@ public class Widgets extends HttpServlet {
    */
   public final void service(final HttpServletRequest request,
       final HttpServletResponse response) throws ServletException, IOException {
-    PrintWriter writer =
-        new PrintWriter(new OutputStreamWriter(response.getOutputStream(),
-            "utf-8"));
+    PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
+        .getOutputStream(), "utf-8"));
 
     response.setContentType("application/json; charset=utf-8");
     response.setCharacterEncoding("utf-8");
 
-    HashSet<String> widgetsList = new HashSet<String>();
-    HashSet<String> commonWidgetsList = new HashSet<String>();
+    HashSet < String > widgetsList = new HashSet < String >();
+    HashSet < String > commonWidgetsList = new HashSet < String >();
 
     getWidgets(new File(properties.getProperty("widgetsDir")), widgetsList);
     getCommonWidgets(new File(properties.getProperty("widgetsDir")),
         commonWidgetsList);
 
-    HashMap<String, Object> outObj = new HashMap<String, Object>();
+    HashMap < String, Object > outObj = new HashMap < String, Object >();
     outObj.put("widgets", widgetsList);
     outObj.put("commonWidgets", commonWidgetsList);
 
@@ -91,7 +90,7 @@ public class Widgets extends HttpServlet {
    * @param folder Path to folder that should be scanned.
    * @param list collection to array where widgets should be accumulate.
    */
-  private void getWidgets(final File folder, final HashSet<String> list) {
+  private void getWidgets(final File folder, final HashSet < String > list) {
     File[] files = folder.listFiles();
     for (int j = 0; j < files.length; ++j) {
       // Add all widget folder that are not "common"
@@ -100,9 +99,8 @@ public class Widgets extends HttpServlet {
         if (files[j].listFiles().length != 0) {
           if (files[j].listFiles()[0].toString().contains(
               properties.getProperty("widgetXMLFile"))) {
-            String widgetName =
-                files[j].toString().substring(
-                    properties.getProperty("widgetsDir").length());
+            String widgetName = files[j].toString().substring(
+                properties.getProperty("widgetsDir").length());
 
             // except "main" widgets
             if (!widgetName.startsWith("main/")) {
@@ -123,15 +121,14 @@ public class Widgets extends HttpServlet {
    * @param folder where widgets present.
    * @param list collection which should be populate.
    */
-  private void getCommonWidgets(final File folder, final HashSet<String> list) {
+  private void getCommonWidgets(final File folder, final HashSet < String > list) {
     File[] files = folder.listFiles();
     for (int j = 0; j < files.length; ++j) {
       // Add all widget folder that are not "common"
       if (!files[j].getName().equals("xml")) {
         // TODO: Add check if there some thing present
-        String widgetName =
-            files[j].toString().substring(
-                properties.getProperty("widgetsDir").length());
+        String widgetName = files[j].toString().substring(
+            properties.getProperty("widgetsDir").length());
         if (!widgetName.startsWith("common/") && widgetName.contains("/common")
             && files[j].isDirectory()) {
           if (files[j].getParent().contains("/common")) {
