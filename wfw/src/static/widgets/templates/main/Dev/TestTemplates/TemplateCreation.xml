@@ -2,13 +2,17 @@
 
 <ROOT>
   <head>
-    <title>WFW - Widget Test Page</title>
+    <title>WFW - Flow Creation Test Page</title>
+    
   </head>
   <body>
+    <script type='text/javascript'>
+      sh_highlightDocument();
+    </script>
     <div id='header' class='wfw-widget'/>
     <div id='menu' class='wfw-widget'/>
     <div id='content' class='wfw-widget'>
-      <iframe id="frameContent" src="" align="center" frameborder="0"></iframe>
+      <pre id='codeContent' class='sh_xml'></pre>
     </div>
     <div id='bottom' class='wfw-widget'/>
   </body>

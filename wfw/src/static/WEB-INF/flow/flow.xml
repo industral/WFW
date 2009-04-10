@@ -1,30 +1,42 @@
 <flows>
+  <!-- BEGIN DO NOT EDIT THIS -->
   <!-- BEGIN Common framework flow's -->
-  <flow name='devHome' template='main/Dev/devHome' commonWidget='users/siegerstein/common'>
+  <flow name='main/dev/devHome' template='main/Dev/devHome' commonWidget='users/siegerstein/common'>
     <widgets>
       <widget id='header'>main/dev/home/header</widget>
       <widget id='links'>main/dev/home/menu</widget>
       <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
-  
-  <flow name='WidgetTestPage' template='main/Dev/TestTemplates/Widget'>
+  <flow name='main/dev/WidgetTestPage' template='main/Dev/TestTemplates/Widget'>
     <widgets>
       <widget id='menu'>main/dev/TestPages/Widget/menu</widget>
       <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
-  
-  <flow name='FlowCreationPage' template='main/Dev/TestTemplates/FlowCreation'>
+  <flow name='main/dev/TemplateCreationPage' template='main/Dev/TestTemplates/TemplateCreation'>
     <widgets>
-      <widget id='menu'>main/dev/TestPages/FlowCreation/menu</widget>
+      <widget id='menu'>main/dev/TestPages/TemplateCreation/menu</widget>
+      <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
+    </widgets>
+  </flow>
+  <flow name='main/dev/FlowCreationPage' template='main/Dev/TestTemplates/FlowCreation'>
+    <widgets>
+      <widget id='menu'>main/dev/TestPages/Flows/menu</widget>
       <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
   <!-- END Common framework flow's -->
-  
-  <!-- Start users flow's -->
-  <flow name='flow_1' template='users/siegerstein/mainSite' commonWidget='users/siegerstein/common'>
+  <!-- END DO NOT EDIT THIS -->
+
+  <!-- BEGIN YOU CAN EDIT HERE -->
+
+  <!--
+  Start your flow names with users/ prefix. For example: users/test or users/bill/flow1.
+  -->
+
+  <!-- BEGIN users flow's -->
+  <flow name='users/siegerstein/mainPage' template='users/siegerstein/mainSite' commonWidget='users/siegerstein/common'>
     <widgets>
       <widget id='logo' position='relative' left='300px' top='65px'>users/siegerstein/logo</widget>
       <widget id='topMenu' position='relative' left='445px'>users/siegerstein/topMenu</widget>
@@ -34,5 +46,6 @@
       <widget id='bottom' position='absolute' right='10px' bottom='10px'>users/siegerstein/bottom</widget>
     </widgets>
   </flow>
-  <!-- End users flow's -->
+  <!-- END users flow's -->
+  <!-- END YOU CAN EDIT HERE -->
 </flows>

@@ -1,5 +1,5 @@
 window.onload = function(){
-    $.getJSON('/servlets/FlowCreationPage', {}, function(json){
+    $.getJSON('/servlets/TemplateCreationPage', {}, function(json){
         // Template List
         var selectEl = [{
             tagName: 'select',

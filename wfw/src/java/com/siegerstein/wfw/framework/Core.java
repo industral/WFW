@@ -84,18 +84,30 @@ public class Core {
   }
 
   /**
+   * Test flow in Test Flow Page.
+   * @param flowId flow name.
+   * @throws FileNotFoundException when some thing is missing in flow.
+   */
+  public final void testFlow(final String flowId) throws FileNotFoundException {
+    // set FLOW type build document.
+    this.buildType = BuildType.FLOW_TEST;
+    this.createFlowHashMap(flowId);
+    this.outputBuilder();
+  }
+
+  /**
    * Test widget in Test Widget Page.
    * @param widgetName widget name.
    * @param aCommonWidgetName common widget.
    * @throws FileNotFoundException when some thing is missing in flow.
    */
   public final void testWidget(final String widgetName,
-      final String aCommonWidgetName) throws FileNotFoundException {
+      final String[] aCommonWidgetName) throws FileNotFoundException {
     // set WIDGET type build document.
     this.buildType = BuildType.WIDGET;
     this.flowTemplate = this.properties.getProperty("testTemplate");
 
-    this.commonWidgetName = aCommonWidgetName;
+    this.commonWidgets = aCommonWidgetName;
 
     // Create flow hashMap ("testContent" => "widgetName")
     this.flowHash = new HashMap < String, String >();
@@ -109,29 +121,6 @@ public class Core {
   // --------------------------------------------------------------------
 
   /**
-   * Parsing flow file.
-   * @return {@link Element} of main flow data-file.
-   * @throws FileNotFoundException when flow file not found.
-   */
-  private Element parseFlow() throws FileNotFoundException {
-    SAXBuilder builder = new SAXBuilder();
-
-    Document doc = null;
-    try {
-      doc = builder.build(new FileInputStream(this.properties
-          .getProperty("flowPath")));
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      throw new FileNotFoundException("Flow file not found");
-    } catch (JDOMException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return (doc.getRootElement());
-  }
-
-  /**
    * Create hashMap with "id" => "widgetName".
    * @param flowId flow name.
    * @throws FileNotFoundException when flow file not found.
@@ -143,10 +132,28 @@ public class Core {
     this.flowHash = new HashMap < String, String >();
 
     // Find flow with flowId name
-    for (Element obj : (List < Element >) this.parseFlow().getChildren("flow")) {
+    for (Element obj : (List < Element >) this.flow.parseFlow().getChildren(
+        "flow")) {
       if ((obj.getAttributeValue("name").equals(flowId))) {
         this.flowTemplate = obj.getAttributeValue("template");
-        this.commonWidgetName = obj.getAttributeValue("commonWidget");
+
+        if (obj.getAttributeValue("commonWidget") != null) {
+          this.commonWidgets = obj.getAttributeValue("commonWidget").toString()
+              .split(" ");
+        }
+
+        // If testing flow add one more common widget
+        if (this.buildType == BuildType.FLOW_TEST) {
+          // Create new array
+          String[] a = new String[this.commonWidgets.length + 1];
+          for (int i = 0; i < this.commonWidgets.length; ++i) {
+            a[i] = this.commonWidgets[i];
+          }
+          a[this.commonWidgets.length] = properties
+              .getProperty("flowTestingCommonWidget");
+          this.commonWidgets = a;
+        }
+
         // If flow found, run in cycle and populate hash
         for (Element widgetObj : (List < Element >) obj.getChild("widgets")
             .getChildren("widget")) {
@@ -186,8 +193,8 @@ public class Core {
   private HashSet < String > getWidgetCSS(final String widgetName)
       throws FileNotFoundException {
     HashSet < String > cssCollection = new HashSet < String >();
-    for (Element flowObj : (List < Element >) this.parseFlow().getChildren(
-        "flow")) {
+    for (Element flowObj : (List < Element >) this.flow.parseFlow()
+        .getChildren("flow")) {
       for (Element widgetObj : (List < Element >) flowObj.getChild("widgets")
           .getChildren("widget")) {
         if (widgetObj.getValue().trim().equals(widgetName)) {
@@ -281,8 +288,10 @@ public class Core {
     this.addHEADFiles(this.properties.getProperty("commonWidgetName"));
 
     // If present common user widget add it to HEAD
-    if (isPresent(this.commonWidgetName)) {
-      this.addHEADFiles(this.commonWidgetName);
+    for (String s : this.commonWidgets) {
+      if (isPresent(s)) {
+        this.addHEADFiles(s);
+      }
     }
 
     // TODO: Add recursive search.
@@ -537,6 +546,11 @@ public class Core {
   private PrintWriter  out        = null;
 
   /**
+   * Flow object.
+   */
+  private Flow         flow       = new Flow();
+
+  /**
    * HEAD tag files that should be included automatically if they present.
    */
   private enum HeadFiles {
@@ -549,47 +563,47 @@ public class Core {
   /**
    * HashMap of "id" => "widget".
    */
-  private HashMap < String, String > flowHash         = new HashMap < String, String >();
+  private HashMap < String, String > flowHash        = new HashMap < String, String >();
 
   /**
    * HashMap of "widget" => "id".
    */
-  private HashMap < String, String > flowHashReverse  = new HashMap < String, String >();
+  private HashMap < String, String > flowHashReverse = new HashMap < String, String >();
 
   /**
    * Name of template that should use to create DOM.
    */
-  private String                     flowTemplate     = null;
+  private String                     flowTemplate    = null;
 
   /**
    * Name of common widget that should include if it present.
    */
-  private String                     commonWidgetName = null;
+  private String[]                   commonWidgets   = {};
 
   /**
    * List of HEAD files.
    */
-  private List < String >            headFilesList    = new LinkedList < String >();
+  private List < String >            headFilesList   = new LinkedList < String >();
 
   /**
    * BODY element.
    */
-  private Element                    templateBODY     = null;
+  private Element                    templateBODY    = null;
 
   /**
    * Embedded CSS.
    */
-  private Element                    embeddedCSS      = null;
+  private Element                    embeddedCSS     = null;
 
   /**
    * Using build document type.
    */
   private enum BuildType {
     /**
-     * "widget" if testing widget in stand-along mode. "flow" if build output
-     * from widgets.
+     * "WIDGET" if testing widget in stand-along mode. "FLOW" if build output
+     * from widgets, "FLOW_TEST" - if test flow.
      */
-    WIDGET, FLOW
+    WIDGET, FLOW, FLOW_TEST
   }
 
   /**

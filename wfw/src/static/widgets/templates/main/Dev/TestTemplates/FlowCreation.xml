@@ -1,19 +1,13 @@
 <?xml version='1.0' encoding='utf-8'?>
-
 <ROOT>
   <head>
     <title>WFW - Flow Creation Test Page</title>
-    
   </head>
   <body>
-    <script type='text/javascript'>
-      sh_highlightDocument();
-    </script>
-    <div id='header' class='clear'/>
-    <div id='menu' class='clear'/>
-    <div id='content' class='clear'>
-      <pre id='codeContent' class='sh_xml'></pre>
+    <div id='header' class='wfw-widget'/><div id='menu' class='clear'/>
+    <div id='content' class='wfw-widget'>
+      <iframe id="frameContent" src="" align="center" frameborder="0"></iframe>
     </div>
-    <div id='bottom' class='clear'/>
+    <div id='bottom' class='wfw-widget'/>
   </body>
 </ROOT>

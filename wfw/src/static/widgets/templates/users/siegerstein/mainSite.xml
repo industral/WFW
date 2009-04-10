@@ -5,11 +5,11 @@
     <title>SIEGERSTEIN</title>
   </head>
   <body>
-    <div id='logo' class='clear'/>
-    <div id='topMenu' class='clear'/>
-    <div id='search' class='clear'/>
-    <div id='menu' class='clear'/>
-    <div id='content' class='clear'/>
-    <div id='bottom' class='clear'/>
+    <div id='logo' class='wfw-widget'/>
+    <div id='topMenu' class='wfw-widget'/>
+    <div id='search' class='wfw-widget'/>
+    <div id='menu' class='wfw-widget'/>
+    <div id='content' class='wfw-widget'/>
+    <div id='bottom' class='wfw-widget'/>
   </body>
 </ROOT>

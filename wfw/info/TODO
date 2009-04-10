@@ -2,8 +2,4 @@
 
 - Found the way <script></script>
 
-- Change info.xml => .wfw-info.xml
-- ant skip it
-- logo add JS effect. Need to change algorithm.
-
-- add applet support
+- add theme support

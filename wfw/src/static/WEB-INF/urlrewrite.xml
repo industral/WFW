@@ -33,6 +33,32 @@ http://tuckey.org/urlrewrite/
     <to>/test/status/</to>
   </outbound-rule>
   
+  <!-- WFW - Common -->
+  <rule>
+    <from>^/$</from>
+    <to>/Dev/Home</to>
+  </rule>
+  
+  <rule>
+    <name>Disable Directory</name>
+    <from>xml/structure.xml$</from>
+    <set type="status">404</set>
+    <to>null</to>
+  </rule>
+  
+  <rule>
+    <name>Disable Directory</name>
+    <from>.wfw-*</from>
+    <set type="status">404</set>
+    <to>null</to>
+  </rule>
+  <!-- WFW - Common -->
+  
+  <rule>
+    <from>^/siegerstein/Main$</from>
+    <to>/urlHandle?flowId=users/siegerstein/mainPage</to>
+  </rule>
+  
   <rule>
     <from>^/path/([0-9]+)$</from>
     <to>/urlHandle?flowId=flow_$1</to>
@@ -40,21 +66,26 @@ http://tuckey.org/urlrewrite/
   
   <rule>
     <from>^/Dev/?$</from>
-    <to>/urlHandle?flowId=devHome</to>
+    <to>/urlHandle?flowId=main/dev/devHome</to>
   </rule>
   
   <rule>
     <from>^/Dev/Home/?$</from>
-    <to>/urlHandle?flowId=devHome</to>
+    <to>/urlHandle?flowId=main/dev/devHome</to>
   </rule>
   
   <rule>
     <from>^/Dev/WidgetTestPage/?$</from>
-    <to>/urlHandle?flowId=WidgetTestPage</to>
+    <to>/urlHandle?flowId=main/dev/WidgetTestPage</to>
+  </rule>
+  
+  <rule>
+    <from>^/Dev/TemplateCreationPage/?$</from>
+    <to>/urlHandle?flowId=main/dev/TemplateCreationPage</to>
   </rule>
   
   <rule>
     <from>^/Dev/FlowCreationPage/?$</from>
-    <to>/urlHandle?flowId=FlowCreationPage</to>
+    <to>/urlHandle?flowId=main/dev/FlowCreationPage</to>
   </rule>
 </urlrewrite>

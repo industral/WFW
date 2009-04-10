@@ -5,9 +5,9 @@
     <title>Test Flow</title>
   </head>
   <body>
-    <div id='header' class='clear'/>
-    <div id='menu' class='clear'/>
-    <div id='content' class='clear'/>
-    <div id='footer' class='clear'/>
+    <div id='header' class='wfw-widget'/>
+    <div id='menu' class='wfw-widget'/>
+    <div id='content' class='wfw-widget'/>
+    <div id='footer' class='wfw-widget'/>
   </body>
 </ROOT>

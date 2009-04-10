@@ -1,6 +1,7 @@
 package com.siegerstein.wfw.framework.test;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -26,7 +27,9 @@ public class HelloWorldServlet extends HttpServlet {
    */
   public final void service(final HttpServletRequest request,
       final HttpServletResponse response) throws ServletException, IOException {
-    PrintWriter writer = response.getWriter();
+    PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
+        .getOutputStream(), "utf-8"));
+
     writer.println(request.getParameter("flowId"));
     writer.close();
   }

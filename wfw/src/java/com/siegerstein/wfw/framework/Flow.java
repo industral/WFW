@@ -23,97 +23,77 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.           *
  ******************************************************************************/
 
-package com.siegerstein.wfw.framework.servlets;
+package com.siegerstein.wfw.framework;
 
 import static com.siegerstein.wfw.framework.util.Util.readPropertieFile;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.util.HashSet;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
+import org.jdom.Document;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 /**
- * Create Flow Page servlet.
+ * Class for parsing flow XML file.
  * @author Alex Ivasyuv
  */
-public class FlowCreationPage extends HttpServlet {
+public class Flow {
 
   // --------------------------------------------------------------------
   // Public methods
   // --------------------------------------------------------------------
 
   /**
-   * Main servlet method.
-   * @param request servlet request.
-   * @param response servlet request.
-   * @throws ServletException in servlet error.
-   * @throws IOException in other case error.
+   * Constructor.
    */
-  public final void service(final HttpServletRequest request,
-      final HttpServletResponse response) throws ServletException, IOException {
-    PrintWriter writer = new PrintWriter(new OutputStreamWriter(response
-        .getOutputStream(), "utf-8"));
+  public Flow() {
+    log.log(Level.INFO, "In Constructor");
+  }
 
-    response.setContentType("application/json; charset=utf-8");
-    response.setCharacterEncoding("utf-8");
+  /**
+   * Parsing flow file.
+   * @return {@link Element} of main flow data-file.
+   * @throws FileNotFoundException when flow file not found.
+   */
+  public final Element parseFlow() throws FileNotFoundException {
+    SAXBuilder builder = new SAXBuilder();
 
-    HashSet < String > listOfTemplates = new HashSet < String >();
-
-    getTemplates(new File(properties.getProperty("templateDir")),
-        listOfTemplates);
-
-    writer.println(new Gson().toJson(listOfTemplates));
-
-    writer.close();
+    Document doc = null;
+    try {
+      doc = builder.build(new FileInputStream(this.properties
+          .getProperty("flowPath")));
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+      throw new FileNotFoundException("Flow file not found");
+    } catch (JDOMException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return (doc.getRootElement());
   }
 
   // --------------------------------------------------------------------
   // Private methods
   // --------------------------------------------------------------------
 
-  /**
-   * Get availability templates.
-   * @param folder folder where should be templates files search.
-   * @param list collection that should be populate.
-   */
-  private void getTemplates(final File folder, final HashSet < String > list) {
-    File[] files = folder.listFiles();
-    for (int j = 0; j < files.length; ++j) {
-      // add all .xml files
-      if (files[j].getName().contains(".xml") && files[j].isFile()) {
-        String templateFile = files[j].toString().substring(
-            properties.getProperty("templateDir").length());
-        // Skip main folder
-        if (!templateFile.startsWith("main/")) {
-          list.add(templateFile);
-        }
-      }
-      if (files[j].isDirectory()) {
-        getTemplates(files[j], list);
-      }
-    }
-  }
-
   // --------------------------------------------------------------------
   // Private variables
   // --------------------------------------------------------------------
 
   /**
-   * UUID.
+   * Logger instance.
    */
-  private static final long serialVersionUID = -4111920390608057802L;
+  private final Logger log        = Logger.getLogger(getClass().toString());
 
   /**
    * Property instance.
    */
-  private Properties        properties       = readPropertieFile();
+  private Properties   properties = readPropertieFile();
 }
