@@ -384,7 +384,8 @@ public class Core {
       throws FileNotFoundException {
 
     // add embedded CSS style if it present in flow
-    if (this.buildType == BuildType.FLOW) {
+    if (this.buildType == BuildType.FLOW
+        || this.buildType == BuildType.FLOW_TEST) {
       this.addWidgetPosition(widgetName);
     }
 
