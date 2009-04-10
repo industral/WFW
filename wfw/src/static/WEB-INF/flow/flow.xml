@@ -3,27 +3,27 @@
   <!-- BEGIN Common framework flow's -->
   <flow name='main/dev/devHome' template='main/Dev/devHome' commonWidget='users/siegerstein/common'>
     <widgets>
-      <widget id='header'>main/dev/home/header</widget>
-      <widget id='links'>main/dev/home/menu</widget>
-      <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
+      <widget id='f-header'>main/dev/home/header</widget>
+      <widget id='f-links'>main/dev/home/menu</widget>
+      <widget id='f-bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
   <flow name='main/dev/WidgetTestPage' template='main/Dev/TestTemplates/Widget'>
     <widgets>
-      <widget id='menu'>main/dev/TestPages/Widget/menu</widget>
-      <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
+      <widget id='f-menu'>main/dev/TestPages/Widget/menu</widget>
+      <widget id='f-bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
   <flow name='main/dev/TemplateCreationPage' template='main/Dev/TestTemplates/TemplateCreation'>
     <widgets>
-      <widget id='menu'>main/dev/TestPages/TemplateCreation/menu</widget>
-      <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
+      <widget id='f-menu'>main/dev/TestPages/TemplateCreation/menu</widget>
+      <widget id='f-bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
   <flow name='main/dev/FlowCreationPage' template='main/Dev/TestTemplates/FlowCreation'>
     <widgets>
-      <widget id='menu'>main/dev/TestPages/Flows/menu</widget>
-      <widget id='bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
+      <widget id='f-menu'>main/dev/TestPages/Flows/menu</widget>
+      <widget id='f-bottom' position='absolute' right='10px' bottom='10px'>main/dev/bottom</widget>
     </widgets>
   </flow>
   <!-- END Common framework flow's -->
@@ -43,7 +43,7 @@
       <widget id='search' position='relative' left='1097px' top='-29px'>users/siegerstein/search</widget>
       <widget id='menu' position='absolute' left='100px' top='325px'>users/siegerstein/menu</widget>
       <widget id='content' position='relative' left='443px'>users/siegerstein/content</widget>
-      <widget id='bottom' position='absolute' right='10px' bottom='10px'>users/siegerstein/bottom</widget>
+      <widget id='bottom' position='absolute' right='85px' bottom='120px'>users/siegerstein/bottom</widget>
     </widgets>
   </flow>
   <!-- END users flow's -->

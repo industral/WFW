@@ -5,6 +5,6 @@
     <title>WFW - Widget Test Page</title>
   </head>
   <body>
-    <div id='testContent' class='wfw-widget'/>
+    <div id='f-testContent' class='wfw-widget'/>
   </body>
 </ROOT>

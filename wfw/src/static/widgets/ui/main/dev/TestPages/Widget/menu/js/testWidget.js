@@ -3,7 +3,7 @@ function testWidget(){
     
     var additionalParams = "";
     
-    if ($("#menu #toggleCommonWidgets").is(":checked")) {
+    if ($("#f-menu #toggleCommonWidgets").is(":checked")) {
         var commonWidgetName = $("#commonWidgetSelect option")[$("#commonWidgetSelect")[0].selectedIndex].value;
         additionalParams = "&commonWidgetName=" + commonWidgetName;
     }

@@ -15,7 +15,7 @@ window.onload = function(){
                 innerHTML: json[i]
             });
         }
-        $("#menu").appendDom(selectEl);
+        $("#f-menu").appendDom(selectEl);
     });
 }
 

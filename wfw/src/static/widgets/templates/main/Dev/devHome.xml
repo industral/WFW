@@ -5,8 +5,8 @@
     <title>WFW - Home</title>
   </head>
   <body>
-    <div id='header' class='wfw-widget'/>
-    <div id='links' class='wfw-widget'/>
-    <div id='footer' class='wfw-widget'/>
+    <div id='f-header' class='wfw-widget'/>
+    <div id='f-links' class='wfw-widget'/>
+    <div id='f-bottom' class='wfw-widget'/>
   </body>
 </ROOT>

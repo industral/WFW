@@ -5,11 +5,11 @@
     <title>WFW - Widget Test Page</title>
   </head>
   <body>
-    <div id='header' class='wfw-widget'/>
-    <div id='menu' class='wfw-widget'/>
-    <div id='content' class='wfw-widget'>
+    <div id='f-header' class='wfw-widget'/>
+    <div id='f-menu' class='wfw-widget'/>
+    <div id='f-content' class='wfw-widget'>
       <iframe id="frameContent" src="" align="center" frameborder="0"></iframe>
     </div>
-    <div id='bottom' class='wfw-widget'/>
+    <div id='f-bottom' class='wfw-widget'/>
   </body>
 </ROOT>

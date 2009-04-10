@@ -111,7 +111,7 @@ public class Core {
 
     // Create flow hashMap ("testContent" => "widgetName")
     this.flowHash = new HashMap < String, String >();
-    flowHash.put("testContent", widgetName);
+    flowHash.put("f-testContent", widgetName);
 
     this.outputBuilder();
   }
@@ -288,9 +288,11 @@ public class Core {
     this.addHEADFiles(this.properties.getProperty("commonWidgetName"));
 
     // If present common user widget add it to HEAD
-    for (String s : this.commonWidgets) {
-      if (isPresent(s)) {
-        this.addHEADFiles(s);
+    if (this.commonWidgets != null) {
+      for (String s : this.commonWidgets) {
+        if (isPresent(s)) {
+          this.addHEADFiles(s);
+        }
       }
     }
 

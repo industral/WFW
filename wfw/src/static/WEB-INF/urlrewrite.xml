@@ -48,7 +48,7 @@ http://tuckey.org/urlrewrite/
   
   <rule>
     <name>Disable Directory</name>
-    <from>.wfw-*</from>
+    <from>(.wfw-)(info|onload|ignore)</from>
     <set type="status">404</set>
     <to>null</to>
   </rule>

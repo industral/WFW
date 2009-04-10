@@ -31,7 +31,7 @@ function widgetTestPage(){
         widgetsDiv[0].childNodes.push(widgetsLabel[0]);
         widgetsDiv[0].childNodes.push(selectEl[0]);
         
-        $("#menu").appendDom(widgetsDiv);
+        $("#f-menu").appendDom(widgetsDiv);
         
         // Common Widgets List
         var selectEl = [{
@@ -87,7 +87,7 @@ function widgetTestPage(){
         commonWidgetsDiv[0].childNodes.push(commonWidgetsCheckbox[0]);
         commonWidgetsDiv[0].childNodes.push(commonWidgetsCheckboxLabel[0]);
         
-        $("#menu").appendDom(commonWidgetsDiv);
+        $("#f-menu").appendDom(commonWidgetsDiv);
         
         // Widget information
         var widgetInformation = [{
@@ -95,7 +95,7 @@ function widgetTestPage(){
             id: "widgetInfo"
         }]
         
-        $("#menu").appendDom(widgetInformation);
+        $("#f-menu").appendDom(widgetInformation);
         
         // Submit button
         var submitButton = [{
@@ -109,16 +109,16 @@ function widgetTestPage(){
             }]
         }]
         
-        $("#menu").appendDom(submitButton);
+        $("#f-menu").appendDom(submitButton);
     });
 }
 
 function toggleEl(param){
-    if ($("#menu #toggleCommonWidgets").is(":checked")) {
-        $("#menu #commonWidgetSelect").removeAttr("disabled");
+    if ($("#f-menu #toggleCommonWidgets").is(":checked")) {
+        $("#f-menu #commonWidgetSelect").removeAttr("disabled");
     }
     else {
-        $("#menu #commonWidgetSelect").attr("disabled", "disabled");
+        $("#f-menu #commonWidgetSelect").attr("disabled", "disabled");
     }
 }
 

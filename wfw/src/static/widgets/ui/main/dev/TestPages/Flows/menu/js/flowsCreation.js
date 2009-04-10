@@ -15,7 +15,7 @@ function flowCreationLoad(){
         innerHTML: json[i]
       });
     }
-    $("#menu").appendDom(selectEl);
+    $("#f-menu").appendDom(selectEl);
     var flowName = document.getElementById("flowsListSelect").options[document.getElementById("flowsListSelect").selectedIndex].value;
     loadFlow(flowName);
   });
