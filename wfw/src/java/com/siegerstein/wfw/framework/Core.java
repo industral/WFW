@@ -73,25 +73,27 @@ public class Core {
 
   /**
    * Initialized method to became parsing files and create XML output.
-   * @param flowId Flow name.
+   * @param aFlowId Flow name.
    * @throws FileNotFoundException when some thing is missing in flow.
    */
-  public final void process(final String flowId) throws FileNotFoundException {
+  public final void process(final String aFlowId) throws FileNotFoundException {
     // set FLOW type build document.
     this.buildType = BuildType.FLOW;
-    this.createFlowHashMap(flowId);
+    this.flowId = aFlowId;
+    this.createFlowHashMap();
     this.outputBuilder();
   }
 
   /**
    * Test flow in Test Flow Page.
-   * @param flowId flow name.
+   * @param aFlowId flow name.
    * @throws FileNotFoundException when some thing is missing in flow.
    */
-  public final void testFlow(final String flowId) throws FileNotFoundException {
+  public final void testFlow(final String aFlowId) throws FileNotFoundException {
     // set FLOW type build document.
     this.buildType = BuildType.FLOW_TEST;
-    this.createFlowHashMap(flowId);
+    this.flowId = aFlowId;
+    this.createFlowHashMap();
     this.outputBuilder();
   }
 
@@ -122,19 +124,17 @@ public class Core {
 
   /**
    * Create hashMap with "id" => "widgetName".
-   * @param flowId flow name.
    * @throws FileNotFoundException when flow file not found.
    */
   @SuppressWarnings("unchecked")
-  private void createFlowHashMap(final String flowId)
-      throws FileNotFoundException {
+  private boolean createFlowHashMap() throws FileNotFoundException {
     // Create flow hashMap ("id" => "widgetName")
     this.flowHash = new HashMap < String, String >();
 
     // Find flow with flowId name
     for (Element obj : (List < Element >) this.flow.parseFlow().getChildren(
         "flow")) {
-      if ((obj.getAttributeValue("name").equals(flowId))) {
+      if ((obj.getAttributeValue("name").equals(this.flowId))) {
         this.flowTemplate = obj.getAttributeValue("template");
 
         if (obj.getAttributeValue("commonWidget") != null) {
@@ -166,6 +166,12 @@ public class Core {
         }
       }
     }
+    // Check if template file found
+    if (this.flowTemplate == null) {
+      log.log(Level.CONFIG, "Nothing template found! flowId: " + this.flowId);
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -195,30 +201,21 @@ public class Core {
     HashSet < String > cssCollection = new HashSet < String >();
     for (Element flowObj : (List < Element >) this.flow.parseFlow()
         .getChildren("flow")) {
-      for (Element widgetObj : (List < Element >) flowObj.getChild("widgets")
-          .getChildren("widget")) {
-        if (widgetObj.getValue().trim().equals(widgetName)) {
-          String positionVal = widgetObj.getAttributeValue("position");
+      // Widgets can repeat, so we should find widget in appropriate flowId
+      if (flowObj.getAttributeValue("name").equals(this.flowId)) {
+        for (Element widgetObj : (List < Element >) flowObj.getChild("widgets")
+            .getChildren("widget")) {
+          if (widgetObj.getValue().trim().equals(widgetName)) {
 
-          String rightVal = widgetObj.getAttributeValue("right");
-          String leftVal = widgetObj.getAttributeValue("left");
-          String topVal = widgetObj.getAttributeValue("top");
-          String bottomVal = widgetObj.getAttributeValue("bottom");
+            String positionVal = widgetObj.getAttributeValue("position");
+            String styleVal = widgetObj.getAttributeValue("style");
 
-          if (isPresent(positionVal)) {
-            cssCollection.add("position: " + positionVal);
-          }
-          if (isPresent(rightVal)) {
-            cssCollection.add("right: " + rightVal);
-          }
-          if (isPresent(leftVal)) {
-            cssCollection.add("left: " + leftVal);
-          }
-          if (isPresent(topVal)) {
-            cssCollection.add("top: " + topVal);
-          }
-          if (isPresent(bottomVal)) {
-            cssCollection.add("bottom: " + bottomVal);
+            if (isPresent(positionVal)) {
+              cssCollection.add("position: " + positionVal);
+            }
+            if (isPresent(styleVal)) {
+              cssCollection.add(styleVal);
+            }
           }
         }
       }
@@ -572,6 +569,11 @@ public class Core {
    * HashMap of "widget" => "id".
    */
   private HashMap < String, String > flowHashReverse = new HashMap < String, String >();
+
+  /**
+   * Name of flow that used.
+   */
+  private String                     flowId          = null;
 
   /**
    * Name of template that should use to create DOM.

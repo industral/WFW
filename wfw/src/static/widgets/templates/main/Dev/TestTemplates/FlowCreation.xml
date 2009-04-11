@@ -5,9 +5,9 @@
   </head>
   <body>
     <div id='f-header' class='wfw-widget'/>
-    <div id='f-menu' class='clear'/>
+    <div id='f-menu' class='wfw-widget'/>
     <div id='f-content' class='wfw-widget'>
-      <iframe id="frameContent" src="" align="center" frameborder="0"></iframe>
+      <iframe id='frameContent' name='FlowTest' src='' frameborder='0'></iframe>
     </div>
     <div id='f-bottom' class='wfw-widget'/>
   </body>

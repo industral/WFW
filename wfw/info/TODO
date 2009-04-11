@@ -1,6 +1,7 @@
 - Add Flows Page (flows paths) (In process)
 - move test page to frame
-- finish save flow positon
+- finish save flow position
+- flow creation page should also have feature to add widgets and remove them 
 
 - write test for URL rules
 

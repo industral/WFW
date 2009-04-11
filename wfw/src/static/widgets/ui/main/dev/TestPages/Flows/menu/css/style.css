@@ -1,44 +1,10 @@
 #f-content {
-  height: 100%;
-}
-
-#commonWidgetsDivContainer, #toggleCommonWidgets, #commonWidgetsList, #widgetsList, #widgetInfo,
-.describeLabel {
-  float: left;
-}
-
-.itemDescribe {
-  font: bold normal 9pt Verdana, Arial, Tahoma, Sans serif;
-}
-
-#commonWidgetsList, #widgetsList {
-  margin: 0 150px 0 0;
-}
-
-#toggleCommonWidgets, #menu label[for ="toggleCommonWidgets"] {
-  position: relative;
-  top: 17px;
-  cursor: pointer;
-}
-
-#submitDiv {
-  clear: both;
-  position: relative;
-  top: 12px;
+  text-align: center;
 }
 
 #frameContent {
-  margin: 30px 0 0 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.describeLabel {
-  font-weight: bold;
-  margin: 0 5px 0 0;
-}
-
-#widgetInfo {
-  width: 500px;
+  position: relative;
+  top: 50px;
+  width: 1300px;
+  height: 1000px;
 }
