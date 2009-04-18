@@ -50,6 +50,17 @@
     <url-pattern>/servlets/Flows</url-pattern>
   </servlet-mapping>
   <!-- END: Get list of flows -->
+  
+  <!-- START: Write styles to flow -->
+  <servlet>
+    <servlet-name>WriteFlow</servlet-name>
+    <servlet-class>com.siegerstein.wfw.framework.servlets.WriteFlow</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>WriteFlow</servlet-name>
+    <url-pattern>/servlets/WriteFlow</url-pattern>
+  </servlet-mapping>
+  <!-- END: Write styles to flow -->
 
   <!-- START: Template Creating Page -->
   <servlet>

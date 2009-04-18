@@ -28,7 +28,7 @@ function flowCreationLoad(){
       tagName: 'button',
       id: "f-saveButton",
       innerHTML: "Save",
-      onclick: "javascript:window.frames[0].writeCord()"
+      onclick: "javascript:window.frames[0].writeCord(document.getElementById('flowsListSelect').options[document.getElementById('flowsListSelect').selectedIndex].value)"
     }];
     $("#f-menu").appendDom(saveButton);
   });

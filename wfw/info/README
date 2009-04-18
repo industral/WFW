@@ -4,6 +4,8 @@ on flow and widgets.
 Released under BSD-license.
 
 http://localhost:8080/Dev/Home
+http://localhost:8080/Dev/FlowCreationPage
+
 
 Links:
 
@@ -13,4 +15,5 @@ Gson - http://code.google.com/p/google-gson/
 JDOM - http://www.jdom.org/
 
 jQuery -http://jquery.com/
+jQuery UI - http://jqueryui.com
 shjs - http://shjs.sourceforge.net
