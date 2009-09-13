@@ -1,14 +1,14 @@
 <div id='products'>
   <div>
-    <span>NGMP</span>
-    <span>- next generation media player</span>
+    <span>SilentMedia</span>
+    <span>- Advanced audio library with low-level latency for *nix-like OS</span>
+  </div>
+  <div>
+    <span>RoteSonne</span>
+    <span>- Advanced media player for *nix-like OS</span>
   </div>
   <div>
     <span>WFW</span>
-    <span>- web flow framework</span>
-  </div>
-  <div>
-    <span>SilentMedia</span>
-    <span>- advanced sound media library</span>
+    <span>- Web Framework written in Java</span>
   </div>
 </div>

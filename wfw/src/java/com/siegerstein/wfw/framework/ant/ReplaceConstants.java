@@ -39,6 +39,7 @@ import java.util.Properties;
 
 /**
  * Read all (CSS/JS) files and replace constants.
+ * 
  * @author Alex Ivasyuv
  */
 public final class ReplaceConstants {
@@ -48,13 +49,15 @@ public final class ReplaceConstants {
   // --------------------------------------------------------------------
 
   /**
-   * @param args system command-line arguments.
-   * @throws IOException if error occur.
+   * @param args
+   *          system command-line arguments.
+   * @throws IOException
+   *           if error occur.
    */
   public static void main(final String[] args) throws IOException {
     ReplaceConstants replaceConstants = new ReplaceConstants();
-    List < File > filesList = new LinkedList < File >();
-    List < String > listComponentFiles = new ArrayList < String >();
+    List<File> filesList = new LinkedList<File>();
+    List<String> listComponentFiles = new ArrayList<String>();
     replaceConstants.getFiles(new File(replaceConstants.properties
         .getProperty("CATALINA_HOME")
         + "/webapps/ROOT"
@@ -75,23 +78,29 @@ public final class ReplaceConstants {
 
   /**
    * Get list of files.
-   * @param folder scanned folder name.
-   * @param list accumulate collection of files.
-   * @param filesList accumulate collection of files.
+   * 
+   * @param folder
+   *          scanned folder name.
+   * @param list
+   *          accumulate collection of files.
+   * @param filesList
+   *          accumulate collection of files.
    */
-  private void getFiles(final File folder, final List < String > list,
-      final List < File > filesList) {
+  private void getFiles(final File folder, final List<String> list,
+      final List<File> filesList) {
     File[] files = folder.listFiles();
 
     for (int j = 0; j < files.length; ++j) {
       if (files[j].isFile()
-          && (files[j].getName().endsWith(".css") || files[j].getName()
-              .endsWith(".js"))) {
+          && (files[j].getName().endsWith(".css")
+              || files[j].getName().endsWith(".js") || files[j].getName()
+              .endsWith(".xml"))) {
         filesList.add(files[j]);
       }
 
       // Add all widget folder that are not "common"
-      if (files[j].getName().equals("css") || files[j].getName().equals("js")) {
+      if (files[j].getName().equals("css") || files[j].getName().equals("js")
+          || files[j].getName().equals("xml")) {
         // Check if in folder present css-file
         if (files[j].listFiles().length != 0) {
 
@@ -111,7 +120,9 @@ public final class ReplaceConstants {
 
   /**
    * Get widget path based on file location.
-   * @param fileName file for which widget path should be determine.
+   * 
+   * @param fileName
+   *          file for which widget path should be determine.
    * @return widget path.
    */
   private String getWidgetPath(final File fileName) {
@@ -124,11 +135,13 @@ public final class ReplaceConstants {
 
   /**
    * Main method to replace constants.
-   * @param fileList list with files that should be scanning for replacing.
-   * @throws IOException if error occur.
+   * 
+   * @param fileList
+   *          list with files that should be scanning for replacing.
+   * @throws IOException
+   *           if error occur.
    */
-  private void replaceConstants(final List < File > fileList)
-      throws IOException {
+  private void replaceConstants(final List<File> fileList) throws IOException {
     for (File file : fileList) {
       String fileInString = readFileToString(file.toString());
       BufferedWriter writer = new BufferedWriter(

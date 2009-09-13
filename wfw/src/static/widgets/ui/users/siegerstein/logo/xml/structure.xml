@@ -1,6 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 
 <ROOT>
-  <div id='imageLogo'/>
-  <div id='textLogo'/>
+  <div id='imageLogo' />
+  <div id='textLogo' />
+  <div>
+    <audio id='sound' src='@WIDGET_PATH@/sound/loop_neonlight_buzz_02.ogg'
+      loop='true' />
+  </div>
 </ROOT>
