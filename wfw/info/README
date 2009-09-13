@@ -6,6 +6,9 @@ Released under BSD-license.
 http://localhost:8080/Dev/Home
 http://localhost:8080/Dev/FlowCreationPage
 
+test:
+http://localhost:8080/siegerstein/Main
+
 
 Links:
 

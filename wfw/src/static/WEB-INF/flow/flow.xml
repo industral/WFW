@@ -35,12 +35,12 @@
   <!-- BEGIN users flow's -->
   <flow name="users/siegerstein/mainPage" template="users/siegerstein/mainSite" commonWidget="users/siegerstein/common">
     <widgets>
-      <widget id="logo" position="relative" style="left: 115px; top: 39px;">users/siegerstein/logo</widget>
-      <widget id="topMenu" position="relative" style="left: 267px; top: -8px;">users/siegerstein/topMenu</widget>
-      <widget id="search" position="relative" style="left: 920px; top: -35px;">users/siegerstein/search</widget>
+      <widget id="logo" position="relative" style="top: 17px;">users/siegerstein/logo</widget>
+      <widget id="topMenu" position="relative" style="left: 125px;">users/siegerstein/topMenu</widget>
+      <widget id="search" position="relative" style="left: 777px; top: -29px;">users/siegerstein/search</widget>
       <widget id="menu" position="absolute" style="left: 72px; top: 354px;">users/siegerstein/menu</widget>
-      <widget id="content" position="relative" style="left: 443px">users/siegerstein/content</widget>
-      <widget id="bottom" position="absolute" style="left: 777.9px; top: 846.9px;">users/siegerstein/bottom</widget>
+      <widget id="content" position="relative" style="left: 100px">users/siegerstein/content</widget>
+      <widget id="bottom" position="relative" style="top: 600px;">users/siegerstein/bottom</widget>
     </widgets>
   </flow>
   <!-- END users flow's -->

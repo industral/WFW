@@ -246,6 +246,6 @@ public final class Util {
   /**
    * Path to flow property file.
    */
-  private static final String PROPERTIE_FILE = "/data/siegerstein/WFW/apache-tomcat-6.0.18/"
+  private static final String PROPERTIE_FILE = "/data/siegerstein/WFW/apache-tomcat-6.0.20/"
                                                  + "webapps/ROOT/WEB-INF/flow.properties";
 }

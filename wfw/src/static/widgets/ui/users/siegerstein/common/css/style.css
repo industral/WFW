@@ -1,4 +1,7 @@
 body {
   background: #000;
   color: gray;
+  margin: auto;
+  width: 1000px;
+  height: 800px;
 }

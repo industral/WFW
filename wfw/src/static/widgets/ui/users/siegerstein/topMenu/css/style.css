@@ -5,12 +5,12 @@
 }
 
 #topMenuDiv ul li {
-  background: url('@WIDGET_PATH@/img/menu_div.png') no-repeat 0 3px;
+  background: url('@WIDGET_PATH@/img/menu_div.png') no-repeat 0px 3px;
   float: left;
   list-style-type: none;
   font: bold normal 11pt Verdana, Arial, Tahoma, Sans serif;
-  margin: 7px 0 0;
-  padding: 0 4px 0 10px;
+  margin: 2px 0px 0px 0px;
+  padding: 0px 4px 0px 10px;
 }
 
 #topMenuDiv ul li:first-child {

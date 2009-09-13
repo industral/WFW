@@ -53,6 +53,7 @@ import org.jdom.output.XMLOutputter;
 
 /**
  * Class for parsing flow XML file and putting widgets in appropriate places.
+ * 
  * @author Alex Ivasyuv
  */
 // TODO: make more separate methods.
@@ -64,7 +65,9 @@ public class Core {
 
   /**
    * Constructor.
-   * @param writer JSP writer to provide XHTML outputting document.
+   * 
+   * @param writer
+   *          JSP writer to provide XHTML outputting document.
    */
   public Core(final PrintWriter writer) {
     log.log(Level.INFO, "In Constructor");
@@ -73,8 +76,11 @@ public class Core {
 
   /**
    * Initialized method to became parsing files and create XML output.
-   * @param aFlowId Flow name.
-   * @throws FileNotFoundException when some thing is missing in flow.
+   * 
+   * @param aFlowId
+   *          Flow name.
+   * @throws FileNotFoundException
+   *           when some thing is missing in flow.
    */
   public final void process(final String aFlowId) throws FileNotFoundException {
     // set FLOW type build document.
@@ -86,8 +92,11 @@ public class Core {
 
   /**
    * Test flow in Test Flow Page.
-   * @param aFlowId flow name.
-   * @throws FileNotFoundException when some thing is missing in flow.
+   * 
+   * @param aFlowId
+   *          flow name.
+   * @throws FileNotFoundException
+   *           when some thing is missing in flow.
    */
   public final void testFlow(final String aFlowId) throws FileNotFoundException {
     // set FLOW type build document.
@@ -99,9 +108,13 @@ public class Core {
 
   /**
    * Test widget in Test Widget Page.
-   * @param widgetName widget name.
-   * @param aCommonWidgetName common widget.
-   * @throws FileNotFoundException when some thing is missing in flow.
+   * 
+   * @param widgetName
+   *          widget name.
+   * @param aCommonWidgetName
+   *          common widget.
+   * @throws FileNotFoundException
+   *           when some thing is missing in flow.
    */
   public final void testWidget(final String widgetName,
       final String[] aCommonWidgetName) throws FileNotFoundException {
@@ -112,7 +125,7 @@ public class Core {
     this.commonWidgets = aCommonWidgetName;
 
     // Create flow hashMap ("testContent" => "widgetName")
-    this.flowHash = new HashMap < String, String >();
+    this.flowHash = new HashMap<String, String>();
     flowHash.put("f-testContent", widgetName);
 
     this.outputBuilder();
@@ -124,16 +137,18 @@ public class Core {
 
   /**
    * Create hashMap with "id" => "widgetName".
-   * @throws FileNotFoundException when flow file not found.
+   * 
+   * @throws FileNotFoundException
+   *           when flow file not found.
    */
   @SuppressWarnings("unchecked")
   private boolean createFlowHashMap() throws FileNotFoundException {
     // Create flow hashMap ("id" => "widgetName")
-    this.flowHash = new HashMap < String, String >();
+    this.flowHash = new HashMap<String, String>();
 
     // Find flow with flowId name
-    for (Element obj : (List < Element >) this.flow.parseFlow().getChildren(
-        "flow")) {
+    for (Element obj : (List<Element>) this.flow.parseFlow()
+        .getChildren("flow")) {
       if ((obj.getAttributeValue("name").equals(this.flowId))) {
         this.flowTemplate = obj.getAttributeValue("template");
 
@@ -155,7 +170,7 @@ public class Core {
         }
 
         // If flow found, run in cycle and populate hash
-        for (Element widgetObj : (List < Element >) obj.getChild("widgets")
+        for (Element widgetObj : (List<Element>) obj.getChild("widgets")
             .getChildren("widget")) {
           // Populate hash with "id" => "widgetName"
           this.flowHash.put(widgetObj.getAttributeValue("id"), widgetObj
@@ -176,12 +191,15 @@ public class Core {
 
   /**
    * Search CSS styles in flow for widget and add it to XML.
-   * @param widgetName widget name.
-   * @throws FileNotFoundException if flow file not found.
+   * 
+   * @param widgetName
+   *          widget name.
+   * @throws FileNotFoundException
+   *           if flow file not found.
    */
   private void addWidgetPosition(final String widgetName)
       throws FileNotFoundException {
-    HashSet < String > cssList = this.getWidgetCSS(widgetName);
+    HashSet<String> cssList = this.getWidgetCSS(widgetName);
 
     // if any CSS options available, call next method
     if (!cssList.isEmpty()) {
@@ -191,19 +209,22 @@ public class Core {
 
   /**
    * Create embedded CSS for each widget which have this property in flow file.
-   * @param widgetName widget name for which CSS should be created.
+   * 
+   * @param widgetName
+   *          widget name for which CSS should be created.
    * @return collection with CSS styles.
-   * @throws FileNotFoundException if flow file not found.
+   * @throws FileNotFoundException
+   *           if flow file not found.
    */
   @SuppressWarnings("unchecked")
-  private HashSet < String > getWidgetCSS(final String widgetName)
+  private HashSet<String> getWidgetCSS(final String widgetName)
       throws FileNotFoundException {
-    HashSet < String > cssCollection = new HashSet < String >();
-    for (Element flowObj : (List < Element >) this.flow.parseFlow()
-        .getChildren("flow")) {
+    HashSet<String> cssCollection = new HashSet<String>();
+    for (Element flowObj : (List<Element>) this.flow.parseFlow().getChildren(
+        "flow")) {
       // Widgets can repeat, so we should find widget in appropriate flowId
       if (flowObj.getAttributeValue("name").equals(this.flowId)) {
-        for (Element widgetObj : (List < Element >) flowObj.getChild("widgets")
+        for (Element widgetObj : (List<Element>) flowObj.getChild("widgets")
             .getChildren("widget")) {
           if (widgetObj.getValue().trim().equals(widgetName)) {
 
@@ -225,11 +246,14 @@ public class Core {
 
   /**
    * Create CSS styles from CSS list and add it to HEAD tag.
-   * @param widgetName widget name.
-   * @param cssList CSS list with CSS properties.
+   * 
+   * @param widgetName
+   *          widget name.
+   * @param cssList
+   *          CSS list with CSS properties.
    */
   private void createWidgetCSS(final String widgetName,
-      final HashSet < String > cssList) {
+      final HashSet<String> cssList) {
     if (this.embeddedCSS == null) {
       this.embeddedCSS = new Element("style");
       this.embeddedCSS.setAttribute("type", "text/css");
@@ -247,8 +271,10 @@ public class Core {
 
   /**
    * Parse template file.
+   * 
    * @return {@link Element} of template root.
-   * @throws FileNotFoundException when template file not found.
+   * @throws FileNotFoundException
+   *           when template file not found.
    */
   private Element getTemplateRoot() throws FileNotFoundException {
     // Start builder for template.
@@ -271,13 +297,14 @@ public class Core {
 
   /**
    * Create XML output document from widgets.
-   * @throws FileNotFoundException when some thing is missing in flow.
+   * 
+   * @throws FileNotFoundException
+   *           when some thing is missing in flow.
    */
   @SuppressWarnings("unchecked")
   private void outputBuilder() throws FileNotFoundException {
     Element templateRoot = this.getTemplateRoot();
-    List < Element > templateRootList = (List < Element >) templateRoot
-        .getChildren();
+    List<Element> templateRootList = (List<Element>) templateRoot.getChildren();
     Element templateHEAD = templateRootList.get(0);
     this.templateBODY = templateRootList.get(1);
 
@@ -293,8 +320,8 @@ public class Core {
       }
     }
 
-    // TODO: Add recursive search.
-    for (Element divObj : (List < Element >) (this.templateBODY.getChildren())) {
+    // TODO: Add recursive search!!!!!!.
+    for (Element divObj : (List<Element>) (this.templateBODY.getChildren())) {
       // Ensure that it's ID tag
       if (divObj.getName().equals("div")) {
         String idName = divObj.getAttributeValue("id");
@@ -348,11 +375,15 @@ public class Core {
 
   /**
    * Populate {@link List} with files that present in widgets (CSS/JS).
-   * @param folder Path to folder that should be scanned.
-   * @param list {@link List} which should be populate with data.
-   * @param widgetName widget name which files should be found.
+   * 
+   * @param folder
+   *          Path to folder that should be scanned.
+   * @param list
+   *          {@link List} which should be populate with data.
+   * @param widgetName
+   *          widget name which files should be found.
    */
-  private void getFiles(final File folder, final List < String > list,
+  private void getFiles(final File folder, final List<String> list,
       final String widgetName) {
     File[] files = folder.listFiles();
     for (int j = 0; j < files.length; ++j) {
@@ -376,8 +407,11 @@ public class Core {
 
   /**
    * Add present CSS/JS files to HEAD if they present.
-   * @param widgetName widget Name that should be use.
-   * @throws FileNotFoundException if flow file not found.
+   * 
+   * @param widgetName
+   *          widget Name that should be use.
+   * @throws FileNotFoundException
+   *           if flow file not found.
    */
   private void addHEADFiles(final String widgetName)
       throws FileNotFoundException {
@@ -420,7 +454,7 @@ public class Core {
       }
       // if order file present follow him
       if (order) {
-        List < String > list = readFileToList(widgetComponentPathLocal + "/"
+        List<String> list = readFileToList(widgetComponentPathLocal + "/"
             + ".wfw-order");
         for (String s : list) {
           if (!s.trim().isEmpty()) {
@@ -428,7 +462,7 @@ public class Core {
             if (new File(localPath).isFile()) {
               headFilesList.add(widgetComponentPathWeb + "/" + s);
             } else {
-              List < String > listComponentFiles = new ArrayList < String >();
+              List<String> listComponentFiles = new ArrayList<String>();
               getFiles(new File(localPath), listComponentFiles, widgetName
                   + this.properties.getProperty("widget" + headFiles + "Dir"));
 
@@ -447,7 +481,7 @@ public class Core {
       // if no order file just run recursive across all folders inside
       if (!order) {
         if (new File(widgetComponentPathLocal).exists()) {
-          List < String > listComponentFiles = new ArrayList < String >();
+          List<String> listComponentFiles = new ArrayList<String>();
           getFiles(new File(widgetComponentPathLocal), listComponentFiles,
               widgetName
                   + this.properties.getProperty("widget" + headFiles + "Dir"));
@@ -465,11 +499,13 @@ public class Core {
 
   /**
    * Add onload function to BODY tag.
-   * @param fileName file where onload function(s) defined.
+   * 
+   * @param fileName
+   *          file where onload function(s) defined.
    */
   // TODO: function like shit, need to be rewrited!
   private void addJSOnload(final File fileName) {
-    List < String > onloadFunctionList = readFileToList(fileName.toString());
+    List<String> onloadFunctionList = readFileToList(fileName.toString());
     for (String jsFunction : onloadFunctionList) {
       String onloadBodyAttr = this.templateBODY.getAttributeValue("onload");
       String resultOnload = "";
@@ -484,14 +520,16 @@ public class Core {
 
   /**
    * Create HEAD elements and add them to HEAD.
-   * @param headElement HEAD element in which will be populate with elements.
+   * 
+   * @param headElement
+   *          HEAD element in which will be populate with elements.
    */
   private void createHeadElements(final Element headElement) {
     // remove from list all ignored files
     this.headFilesList.removeAll(getIgnoredFiles());
 
-    List < Element > cssList = new LinkedList < Element >();
-    List < Element > jsList = new LinkedList < Element >();
+    List<Element> cssList = new LinkedList<Element>();
+    List<Element> jsList = new LinkedList<Element>();
 
     for (String headFile : this.headFilesList) {
       String elementType = null;
@@ -533,22 +571,22 @@ public class Core {
   /**
    * Logger instance.
    */
-  private final Logger log        = Logger.getLogger(getClass().toString());
+  private final Logger log = Logger.getLogger(getClass().toString());
 
   /**
    * Property instance.
    */
-  private Properties   properties = readPropertieFile();
+  private Properties properties = readPropertieFile();
 
   /**
    * Output writer to JSP page.
    */
-  private PrintWriter  out        = null;
+  private PrintWriter out = null;
 
   /**
    * Flow object.
    */
-  private Flow         flow       = new Flow();
+  private Flow flow = new Flow();
 
   /**
    * HEAD tag files that should be included automatically if they present.
@@ -563,42 +601,42 @@ public class Core {
   /**
    * HashMap of "id" => "widget".
    */
-  private HashMap < String, String > flowHash        = new HashMap < String, String >();
+  private HashMap<String, String> flowHash = new HashMap<String, String>();
 
   /**
    * HashMap of "widget" => "id".
    */
-  private HashMap < String, String > flowHashReverse = new HashMap < String, String >();
+  private HashMap<String, String> flowHashReverse = new HashMap<String, String>();
 
   /**
    * Name of flow that used.
    */
-  private String                     flowId          = null;
+  private String flowId = null;
 
   /**
    * Name of template that should use to create DOM.
    */
-  private String                     flowTemplate    = null;
+  private String flowTemplate = null;
 
   /**
    * Name of common widget that should include if it present.
    */
-  private String[]                   commonWidgets   = {};
+  private String[] commonWidgets = {};
 
   /**
    * List of HEAD files.
    */
-  private List < String >            headFilesList   = new LinkedList < String >();
+  private List<String> headFilesList = new LinkedList<String>();
 
   /**
    * BODY element.
    */
-  private Element                    templateBODY    = null;
+  private Element templateBODY = null;
 
   /**
    * Embedded CSS.
    */
-  private Element                    embeddedCSS     = null;
+  private Element embeddedCSS = null;
 
   /**
    * Using build document type.
