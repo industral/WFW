@@ -5,11 +5,13 @@
     <title>SIEGERSTEIN | RoteSonne</title>
   </head>
   <body>
-    <div id='logo' class='wfw-widget'/>
-    <div id='topMenu' class='wfw-widget'/>
-    <div id='search' class='wfw-widget'/>
-    <div id='topDescribe' class='wfw-widget'/>
-    <div id='content' class='wfw-widget'/>
-    <div id='bottom' class='wfw-widget'/>
+    <div id='main'>
+      <div id='logo' class='wfw-widget' />
+      <div id='topMenu' class='wfw-widget' />
+      <div id='search' class='wfw-widget' />
+      <div id='topDescribe' class='wfw-widget' />
+      <div id='content' class='wfw-widget' />
+      <div id='bottom' class='wfw-widget' />
+    </div>
   </body>
 </ROOT>

@@ -4,14 +4,15 @@
 
 #describe {
   position: relative;
-  left: 124px;
+  left: 108px;
   top: -137px;
 }
 
 #describe span {
   font-weight: bold;
   font-size: 31pt;
-  color: orange;
+  color: gray;
+  text-shadow: 0px 0px 50px #fff;
 }
 
 #describe span + span {
@@ -19,6 +20,7 @@
   color: #fff;
   font-size: 9pt;
   margin-left: 38px;
+  text-shadow: none;
 }
 
 #productMainScreenshot {

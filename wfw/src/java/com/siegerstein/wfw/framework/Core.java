@@ -320,8 +320,34 @@ public class Core {
       }
     }
 
-    // TODO: Add recursive search!!!!!!.
-    for (Element divObj : (List<Element>) (this.templateBODY.getChildren())) {
+    List<Element> el = this.templateBODY.getChildren();
+    this.goRecursive(el);
+
+    this.createHeadElements(templateHEAD);
+
+    // If available embedded CSS, add it
+    if (this.embeddedCSS != null) {
+      templateHEAD.addContent(this.embeddedCSS);
+    }
+
+    Format format = Format.getPrettyFormat();
+    XMLOutputter outp = new XMLOutputter(format);
+    try {
+      outp.output(templateHEAD, out);
+      outp.output(this.templateBODY, out);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * Going thru all elements, making recusrive cycle.
+   * @param el
+   * @throws FileNotFoundException
+   */
+  @SuppressWarnings("unchecked")
+  public void goRecursive(List<Element> el) throws FileNotFoundException {
+    for (Element divObj : el) {
       // Ensure that it's ID tag
       if (divObj.getName().equals("div")) {
         String idName = divObj.getAttributeValue("id");
@@ -354,22 +380,9 @@ public class Core {
           divObj.addContent(widgetDoc.getRootElement().cloneContent());
         }
       }
-    }
-
-    this.createHeadElements(templateHEAD);
-
-    // If available embedded CSS, add it
-    if (this.embeddedCSS != null) {
-      templateHEAD.addContent(this.embeddedCSS);
-    }
-
-    Format format = Format.getPrettyFormat();
-    XMLOutputter outp = new XMLOutputter(format);
-    try {
-      outp.output(templateHEAD, out);
-      outp.output(this.templateBODY, out);
-    } catch (IOException e) {
-      e.printStackTrace();
+      if (!divObj.getChildren().isEmpty()) {
+        this.goRecursive((List<Element>) (divObj.getChildren()));
+      }
     }
   }
 

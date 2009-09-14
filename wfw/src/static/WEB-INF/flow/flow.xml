@@ -50,8 +50,8 @@
       <widget id="topMenu" position="relative" style="left: 125px; top: -150px;">users/siegerstein/Products/RoteSonne/topMenu</widget>
       <widget id="search" position="relative" style="left: 777px; top: -178px;">users/siegerstein/search</widget>
       <widget id="topDescribe" position="relative" style="">users/siegerstein/Products/RoteSonne/topDescribe</widget>
-      <widget id="content" position="relative" style="left: 100px;">users/siegerstein/Products/RoteSonne/content</widget>
-      <widget id="bottom" position="relative" style="top: 100px;">users/siegerstein/bottom</widget>
+      <widget id="content" position="relative" style="left: 100px; top: 50px;">users/siegerstein/Products/RoteSonne/content</widget>
+      <widget id="bottom" position="absolute" style="left: 800px; top: 700px;">users/siegerstein/bottom</widget>
     </widgets>
   </flow>
   <!-- END users flow's -->
