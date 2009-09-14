@@ -4,8 +4,10 @@
     <span>- Advanced audio library with low-level latency for *nix-like OS</span>
   </div>
   <div>
-    <span>RoteSonne</span>
-    <span>- Advanced media player for *nix-like OS</span>
+    <a href="products/rotesonne">
+      <span>RoteSonne</span>
+      <span>- Advanced media player for *nix-like OS</span>
+    </a>
   </div>
   <div>
     <span>WFW</span>

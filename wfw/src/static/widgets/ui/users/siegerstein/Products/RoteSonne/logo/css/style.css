@@ -1,0 +1,5 @@
+#textLogo {
+  background: url('@WIDGET_PATH@/img/logo.png') no-repeat;
+  width: 184px;
+  height: 168px;
+}

@@ -1,0 +1,31 @@
+#topDescribe {
+  height: 122px;
+}
+
+#describe {
+  position: relative;
+  left: 124px;
+  top: -137px;
+}
+
+#describe span {
+  font-weight: bold;
+  font-size: 31pt;
+  color: orange;
+}
+
+#describe span + span {
+  display: block;
+  color: #fff;
+  font-size: 9pt;
+  margin-left: 38px;
+}
+
+#productMainScreenshot {
+  background: url('@WIDGET_PATH@/img/RoteSonne-main-small.png') no-repeat;
+  width: 501px;
+  height: 272px;
+  position: relative;
+  left: 389px;
+  top: -225px;
+}

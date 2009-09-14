@@ -43,6 +43,17 @@
       <widget id="bottom" position="relative" style="top: 600px;">users/siegerstein/bottom</widget>
     </widgets>
   </flow>
+  
+  <flow name="users/siegerstein/Products/RoteSonne" template="users/siegerstein/Products/RoteSonne" commonWidget="users/siegerstein/common">
+    <widgets>
+      <widget id="logo" position="relative" style="top: 17px; left: -100px;">users/siegerstein/Products/RoteSonne/logo</widget>
+      <widget id="topMenu" position="relative" style="left: 125px; top: -150px;">users/siegerstein/Products/RoteSonne/topMenu</widget>
+      <widget id="search" position="relative" style="left: 777px; top: -178px;">users/siegerstein/search</widget>
+      <widget id="topDescribe" position="relative" style="">users/siegerstein/Products/RoteSonne/topDescribe</widget>
+      <widget id="content" position="relative" style="left: 100px;">users/siegerstein/Products/RoteSonne/content</widget>
+      <widget id="bottom" position="relative" style="top: 100px;">users/siegerstein/bottom</widget>
+    </widgets>
+  </flow>
   <!-- END users flow's -->
   <!-- END YOU CAN EDIT HERE -->
 </flows>

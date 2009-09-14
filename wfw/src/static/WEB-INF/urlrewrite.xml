@@ -35,11 +35,6 @@ http://tuckey.org/urlrewrite/
   
   <!-- WFW - Common -->
   <rule>
-    <from>^/$</from>
-    <to>/Dev/Home</to>
-  </rule>
-  
-  <rule>
     <name>Disable Directory</name>
     <from>xml/structure.xml$</from>
     <set type="status">404</set>
@@ -55,8 +50,13 @@ http://tuckey.org/urlrewrite/
   <!-- WFW - Common -->
   
   <rule>
-    <from>^/siegerstein/Main$</from>
+    <from>^/$</from>
     <to>/urlHandle?flowId=users/siegerstein/mainPage</to>
+  </rule>
+  
+  <rule>
+    <from>^/products/rotesonne$</from>
+    <to>/urlHandle?flowId=users/siegerstein/Products/RoteSonne</to>
   </rule>
   
   <rule>
