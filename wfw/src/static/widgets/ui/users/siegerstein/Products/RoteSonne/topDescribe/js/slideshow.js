@@ -1,6 +1,7 @@
 function SlideShow() {
   var self = this;
-  const effect = "scale";
+  
+//  const effect = "scale";
   const timeEffect = 10000;
 
   this.currentAsset = 1;
@@ -8,7 +9,7 @@ function SlideShow() {
   this.assetsCount = this.assetsArray.length;
 
   this.start = function() {
-    $(self.assetsArray[0]).addClass('show').show(effect);
+    $(self.assetsArray[0]).addClass('show').show(/*effect*/);
 
     setInterval(function() {
       self.next();
@@ -31,14 +32,14 @@ function SlideShow() {
     }
 
     if ($(self.assetsArray[this.prevAsset]).hasClass('show')) {
-      $(self.assetsArray[this.prevAsset]).removeClass('show').hide(
-          effect,
+      $(self.assetsArray[this.prevAsset]).removeClass('show').hide();
+          /*effect,
           {},
           null,
-          function() {
+          function() {*/
             $(self.assetsArray[self.currentAsset++]).addClass('show').show(
-                effect);
-          });
+                /*effect*/);
+          /*});*/
     }
   }
 }
