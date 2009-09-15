@@ -12,9 +12,12 @@
 
 #slideShow li {
   display: none;
-  float: left;
+  opacity: 0;
+  position: absolute;
+  z-index: 1;
 }
 
 .show {
   display: block !important;
+  z-index: 2;
 }

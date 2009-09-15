@@ -1,7 +1,6 @@
 function SlideShow() {
   var self = this;
-  
-//  const effect = "scale";
+
   const timeEffect = 10000;
 
   this.currentAsset = 1;
@@ -9,7 +8,7 @@ function SlideShow() {
   this.assetsCount = this.assetsArray.length;
 
   this.start = function() {
-    $(self.assetsArray[0]).addClass('show').show(/*effect*/);
+    $(self.assetsArray[0]).addClass('show').fadeTo(0, 1);
 
     setInterval(function() {
       self.next();
@@ -23,23 +22,22 @@ function SlideShow() {
 
     if (self.currentAsset == 0) {
       if ($(self.assetsArray[self.assetsCount - 1]).hasClass('show')) {
-        this.prevAsset = self.assetsCount - 1;
+        self.prevAsset = self.assetsCount - 1;
       } else {
-        this.prevAsset = 0;
+        self.prevAsset = 0;
       }
     } else {
-      this.prevAsset = self.currentAsset - 1;
+      self.prevAsset = self.currentAsset - 1;
     }
 
-    if ($(self.assetsArray[this.prevAsset]).hasClass('show')) {
-      $(self.assetsArray[this.prevAsset]).removeClass('show').hide();
-          /*effect,
-          {},
-          null,
-          function() {*/
-            $(self.assetsArray[self.currentAsset++]).addClass('show').show(
-                /*effect*/);
-          /*});*/
+    if ($(self.assetsArray[self.prevAsset]).hasClass('show')) {
+      $(self.assetsArray[self.currentAsset++]).addClass('show').fadeTo(
+          1000,
+          1,
+          function() {
+            $(self.assetsArray[self.prevAsset]).removeClass('show').attr(
+                'style', '');
+          });
     }
   }
 }
