@@ -1,16 +1,18 @@
 #slideShow {
   position: relative;
   left: 354px;
-  top: -253px;
+  top: -235px;
   width: 800px;
 }
 
 #slideShow ul {
   list-style-type: none;
+  overflow: hidden;
 }
 
-.hide,#slideShow li {
+#slideShow li {
   display: none;
+  float: left;
 }
 
 .show {
