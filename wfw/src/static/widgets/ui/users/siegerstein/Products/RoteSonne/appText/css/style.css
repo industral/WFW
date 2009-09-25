@@ -1,0 +1,20 @@
+#describe {
+  position: relative;
+  left: 108px;
+  top: -137px;
+}
+
+#describe span {
+  font-weight: bold;
+  font-size: 31pt;
+  color: gray;
+  text-shadow: 0px 0px 50px #fff;
+}
+
+#describe span + span {
+  display: block;
+  color: #fff;
+  font-size: 9pt;
+  margin-left: 38px;
+  text-shadow: none;
+}

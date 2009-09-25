@@ -104,7 +104,7 @@ public class WriteFlow extends HttpServlet {
           for (Element widgetEl : (List < Element >) el.getChild("widgets")
               .getChildren("widget")) {
             if (widgetEl.getAttributeValue("id").equals(this.id[i])) {
-              widgetEl.getAttribute("style").setValue(this.style[i]);
+              widgetEl.setAttribute("style", this.style[i]);
             }
           }
         }

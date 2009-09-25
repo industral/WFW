@@ -46,12 +46,14 @@
   
   <flow name="users/siegerstein/Products/RoteSonne" template="users/siegerstein/Products/RoteSonne" commonWidget="users/siegerstein/common">
     <widgets>
-      <widget id="logo" position="relative" style="top: 17px; left: -100px;">users/siegerstein/Products/RoteSonne/logo</widget>
-      <widget id="topMenu" position="relative" style="left: 125px; top: -150px;">users/siegerstein/Products/RoteSonne/topMenu</widget>
-      <widget id="search" position="relative" style="left: 777px; top: -178px;">users/siegerstein/search</widget>
-      <widget id="topDescribe" position="relative" style="">users/siegerstein/Products/RoteSonne/topDescribe</widget>
-      <widget id="content" position="relative" style="left: -100px; top: -123px;">users/siegerstein/Products/RoteSonne/content</widget>
-      <widget id="bottom" position="absolute" style="left: 1085px; top: 577px;">users/siegerstein/bottom</widget>
+      <widget id="logo" position="relative" style="left: -89px; top: 101px;">users/siegerstein/Products/RoteSonne/logo</widget>
+      <widget id="appLogo" position="relative" style="left: -76px; top: 212px;">users/siegerstein/Products/RoteSonne/appLogo</widget>
+      <widget id="appText" position="relative" style="left: -176px; top: 481px;">users/siegerstein/Products/RoteSonne/appText</widget>
+      <widget id="topMenu" position="relative" style="left: 106px; top: -371px;">users/siegerstein/Products/RoteSonne/topMenu</widget>
+      <widget id="search" position="relative" style="left: 758px; top: -399px;">users/siegerstein/search</widget>
+      <widget id="sliders" position="relative" style="left: -175px; top: -143px;">users/siegerstein/Products/RoteSonne/sliders</widget>
+      <widget id="content" position="relative" style="left: 219px; top: 63px;">users/siegerstein/Products/RoteSonne/content</widget>
+      <widget id="bottom" position="absolute" style="left: 956px; top: 723px;">users/siegerstein/bottom</widget>
     </widgets>
   </flow>
   <!-- END users flow's -->

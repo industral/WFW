@@ -1,5 +1,5 @@
-#textLogo {
+#appLogoContainer {
   background: url('@WIDGET_PATH@/img/logo.png') no-repeat;
-  width: 256px;
-  height: 158px;
+  width: 200px;
+  height: 151px;
 }
